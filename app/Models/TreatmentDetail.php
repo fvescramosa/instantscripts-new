@@ -31,6 +31,8 @@ class TreatmentDetail extends Model
         'follow_up_payment',
         'possible_expenses',
         'treatment_photos',
+        'before_treatment_photos',
+        'after_treatment_photos',
         'consent_to_photographs',
         'consent_to_treatment',
         'patient_signature',

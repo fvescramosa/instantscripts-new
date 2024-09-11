@@ -6,7 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Patient extends Model
+class MedicareCardDetails extends Model
 {
     use CrudTrait;
     use HasFactory;
@@ -17,11 +17,17 @@ class Patient extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'patients';
+    protected $table = 'medicare_card_details';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+     protected $fillable = [
+
+        'card_number',
+        'ref_number',
+        'concession_card',
+
+     ];
     // protected $hidden = [];
 
     /*
@@ -35,24 +41,9 @@ class Patient extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function scripts(){
-        return $this->hasMany(Script::class);
-    }
 
-    public function medical_consultations(){
-        return $this->hasMany(MedicalConsultation::class);
-    }
-
-    public function treatment_details(){
-        return $this->hasMany(TreatmentDetail::class);
-    }
-
-    public function medicine_categories(){
-        return $this->hasMany(MedicineCategory::class);
-    }
-
-    public function medicare_card_details(){
-        return $this->hasMany(MedicareCardDetails::class);
+    public function patient(){
+        return $this->belongsTo(Patient::class);
     }
     /*
     |--------------------------------------------------------------------------
@@ -65,10 +56,7 @@ class Patient extends Model
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
-    public function getFullNameAttribute()
-    {
-        return "{$this->first_name} {$this->last_name}";
-    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS

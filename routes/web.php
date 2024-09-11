@@ -19,3 +19,8 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin'], function () {
     Route::post('script/fetch/patient', [\App\Http\Controllers\Admin\ScriptCrudController::class, 'fetchPatient'])->name('admin.script.fetch.patient');
 });
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::post('script/fetch/medicine-category', [\App\Http\Controllers\Admin\ScriptCrudController::class, 'fetchCategory'])->name('admin.script.fetch.medicine-category');
+});

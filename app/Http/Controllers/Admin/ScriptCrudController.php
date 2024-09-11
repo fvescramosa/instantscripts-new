@@ -76,8 +76,32 @@ class ScriptCrudController extends CrudController
             ];
         });
 
-        return response()->json($query->get());
+        return response()->json($results);
     }
+
+    public function fetchCategory()
+    {
+        $query = \App\Models\MedicineCategory::query();
+
+        if (request()->has('q')) {
+            $search = request()->input('q');
+            $query->where(function ($query) use ($search) {
+                $query->where('category', 'LIKE', "%$search%");
+            });
+        }
+
+        $categories = $query->get();
+
+        $results = $categories->map(function ($patient) {
+            return [
+                'id' => $patient->id,
+                'category' => $patient->category
+            ];
+        });
+
+        return response()->json($results);
+    }
+
     /**
      * Define what happens when the Create operation is loaded.
      *
@@ -101,7 +125,17 @@ class ScriptCrudController extends CrudController
             'type' => 'relationship',
             'entity' => 'patient',
             'model' => 'App\Models\Patient',
-            'attribute' => 'last_name',
+            'attribute' => 'text',
+            'ajax' => true,
+            'inline_create' => true
+        ]);
+
+        CRUD::addField([
+            'name' => 'medicine_category_id',
+            'type' => 'relationship',
+            'entity' => 'medicine_category',
+            'model' => 'App\Models\MedicineCategory',
+            'attribute' => 'category',
             'ajax' => true,
             'inline_create' => true
         ]);
@@ -115,36 +149,219 @@ class ScriptCrudController extends CrudController
 //            'tab' => 'Medical Consultations',
             'subfields' => [
                 ['name' => 'consultation_date', 'type' => 'date', 'label' => 'Consultation Date'],
-                ['name' => 'serious_health_problems', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Do you have any serious health problems, including any blood borne diseases or blood disorders?'],
-                ['name' => 'epilepsy_seizures_fainting', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Do you suffer from epilepsy, seizures or fainting?'],
-                ['name' => 'autoimmune_disease', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Do you have a history of autoimmune disease?'],
-                ['name' => 'surgery_history', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Have you had any surgery, including cosmetic surgery?'],
-                ['name' => 'medications_supplements', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Are you currently taking any medications or health supplements (prescribed or otherwise)?'],
-                ['name' => 'myasthenia_gravis', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Have you been diagnosed with myasthenia gravis, Eaton-Lambert (myasthenic) syndrome, or any conditions that cause weakness in the muscles?'],
-                ['name' => 'cold_sores', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Do you suffer from cold sores?'],
-                ['name' => 'pregnant_breastfeeding', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Are you currently pregnant / breastfeeding or planning a pregnancy in the next 3 months including IVF?'],
-                ['name' => 'allergic_anything', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Are you allergic to anything (including anaesthetics, adrenaline, medications)?'],
-                ['name' => 'sensitive_bees', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Do you have any sensitivities or reactions to bee/wasp stings?'],
-                ['name' => 'numbing_injection', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Have you ever had a numbing injection at the dentist?'],
-                ['name' => 'keloid_scarring', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Do you have a history of abnormal scarring or keloid scarring?'],
-                ['name' => 'intend_to_surgical_invasive', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Do you intend to have any surgical invasive dental procedures within the next 4 weeks or have you had any procedures within the last 4 weeks?'],
-                ['name' => 'implants', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Do you have any implants or metalwork?'],
-                ['name' => 'vaccination', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Have you received any vaccinations in the past 14 days, or do you intend on getting any vaccination in the next 14 days?'],
-                ['name' => 'tropical_treatment', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Are you currently being treated with isotretinoin capsules or topical treatment (brands include Roaccutane, Oratane, Rocta, Dermatane and Isotrex)?'],
-                ['name' => 'anti_wrinkle', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Have you ever received Botulinum Toxin Type A or other anti-wrinkle treatments before?'],
-                ['name' => 'dermal_fillers', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Have you ever received dermal fillers before?'],
-                ['name' => 'stimulatory_fillers', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Have you ever received a treatment with stimulatory fillers such as Sculptra or Radiesse?'],
-                ['name' => 'injectable_procedure', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Have you ever had any complications with your previous cosmetic injectable procedures?'],
-                ['name' => 'smoke', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Do you smoke?'],
-                ['name' => 'travel', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Do you intend to travel internationally in the following 2 weeks?'],
-                ['name' => 'appearance', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Are you worried about the way you look, and do you think about your appearance a lot and wish you could think about it less?'],
-                ['name' => 'affected_daily_life', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Has the way you feel about it affected your daily life activities such as school, work or other activities?'],
-                ['name' => 'avoid_gatherings', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Are there things you avoid because of how you look, such as gatherings, going out etc?'],
-                ['name' => 'thinking_look', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Do you spend more than 2-3 hours a day thinking about how you look?'],
-                ['name' => 'life_adversely', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'If you could not have a cosmetic treatment today, would this affect your life adversely?'],
-                ['name' => 'before_after', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Do you consent to have your before and after photos taken for the purpose of medical records?'],
-                ['name' => 'fully_consent', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Have you been advised of the risks and fully consented for this treatment?'],
-                ['name' => 'understand', 'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'], 'label' => 'Do you understand everything that is written above or do you require assistance or language interpretation?'],
+                [
+                    'name' => 'serious_health_problems',
+                    'label' => 'Do you have any serious health problems, including any blood borne diseases or blood disorders?',
+                    'type' => 'custom_boolean', // Your custom field
+                    'options' => [
+                        1 => 'Yes',
+                        0 => 'No',
+                    ],
+                    'value' => $entry->serious_health_problems ?? 0, // set the default value
+                ],
+                [
+                    'name' => 'epilepsy_seizures_fainting',
+                    'label' => 'Do you suffer from epilepsy, seizures or fainting?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->epilepsy_seizures_fainting ?? 0,
+                ],
+                [
+                    'name' => 'autoimmune_disease',
+                    'label' => 'Do you have a history of autoimmune disease?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->autoimmune_disease ?? 0,
+                ],
+                [
+                    'name' => 'surgery_history',
+                    'label' => 'Have you had any surgery, including cosmetic surgery?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->surgery_history ?? 0,
+                ],
+                [
+                    'name' => 'medications_supplements',
+                    'label' => 'Are you currently taking any medications or health supplements (prescribed or otherwise)?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->medications_supplements ?? 0,
+                ],
+                [
+                    'name' => 'myasthenia_gravis',
+                    'label' => 'Have you been diagnosed with myasthenia gravis, Eaton-Lambert (myasthenic) syndrome, or any conditions that cause weakness in the muscles?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->myasthenia_gravis ?? 0,
+                ],
+                [
+                    'name' => 'cold_sores',
+                    'label' => 'Do you suffer from cold sores?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->cold_sores ?? 0,
+                ],
+                [
+                    'name' => 'pregnant_breastfeeding',
+                    'label' => 'Are you currently pregnant / breastfeeding or planning a pregnancy in the next 3 months including IVF?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->pregnant_breastfeeding ?? 0,
+                ],
+                [
+                    'name' => 'allergic_anything',
+                    'label' => 'Are you allergic to anything (including anaesthetics, adrenaline, medications)?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->allergic_anything ?? 0,
+                ],
+                [
+                    'name' => 'sensitive_bees',
+                    'label' => 'Do you have any sensitivities or reactions to bee/wasp stings?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->sensitive_bees ?? 0,
+                ],
+                [
+                    'name' => 'numbing_injection',
+                    'label' => 'Have you ever had a numbing injection at the dentist?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->numbing_injection ?? 0,
+                ],
+                [
+                    'name' => 'keloid_scarring',
+                    'label' => 'Do you have a history of abnormal scarring or keloid scarring?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->keloid_scarring ?? 0,
+                ],
+                [
+                    'name' => 'intend_to_surgical_invasive',
+                    'label' => 'Do you intend to have any surgical invasive dental procedures within the next 4 weeks or have you had any procedures within the last 4 weeks?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->intend_to_surgical_invasive ?? 0,
+                ],
+                [
+                    'name' => 'implants',
+                    'label' => 'Do you have any implants or metalwork?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->implants ?? 0,
+                ],
+                [
+                    'name' => 'vaccination',
+                    'label' => 'Have you received any vaccinations in the past 14 days, or do you intend on getting any vaccination in the next 14 days?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->vaccination ?? 0,
+                ],
+                [
+                    'name' => 'tropical_treatment',
+                    'label' => 'Are you currently being treated with isotretinoin capsules or topical treatment (brands include Roaccutane, Oratane, Rocta, Dermatane and Isotrex)?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->tropical_treatment ?? 0,
+                ],
+                [
+                    'name' => 'anti_wrinkle',
+                    'label' => 'Have you ever received Botulinum Toxin Type A or other anti-wrinkle treatments before?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->anti_wrinkle ?? 0,
+                ],
+                [
+                    'name' => 'dermal_fillers',
+                    'label' => 'Have you ever received dermal fillers before?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->dermal_fillers ?? 0,
+                ],
+                [
+                    'name' => 'stimulatory_fillers',
+                    'label' => 'Have you ever received a treatment with stimulatory fillers such as Sculptra or Radiesse?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->stimulatory_fillers ?? 0,
+                ],
+                [
+                    'name' => 'injectable_procedure',
+                    'label' => 'Have you ever had any complications with your previous cosmetic injectable procedures?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->injectable_procedure ?? 0,
+                ],
+                [
+                    'name' => 'smoke',
+                    'label' => 'Do you smoke?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->smoke ?? 0,
+                ],
+                [
+                    'name' => 'travel',
+                    'label' => 'Do you intend to travel internationally in the following 2 weeks?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->travel ?? 0,
+                ],
+                [
+                    'name' => 'appearance',
+                    'label' => 'Are you worried about the way you look, and do you think about your appearance a lot and wish you could think about it less?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->appearance ?? 0,
+                ],
+                [
+                    'name' => 'affected_daily_life',
+                    'label' => 'Has the way you feel about it affected your daily life activities such as school, work or other activities?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->affected_daily_life ?? 0,
+                ],
+                [
+                    'name' => 'avoid_gatherings',
+                    'label' => 'Are there things you avoid because of how you look, such as gatherings, going out etc?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->avoid_gatherings ?? 0,
+                ],
+                [
+                    'name' => 'thinking_look',
+                    'label' => 'Do you spend more than 2-3 hours a day thinking about how you look?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->thinking_look ?? 0,
+                ],
+                [
+                    'name' => 'life_adversely',
+                    'label' => 'If you could not have a cosmetic treatment today, would this affect your life adversely?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->life_adversely ?? 0,
+                ],
+                [
+                    'name' => 'before_after',
+                    'label' => 'Do you consent to have your before and after photos taken for the purpose of medical records?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->before_after ?? 0,
+                ],
+                [
+                    'name' => 'fully_consent',
+                    'label' => 'Have you been advised of the risks and fully consented for this treatment?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->fully_consent ?? 0,
+                ],
+                [
+                    'name' => 'understand',
+                    'label' => 'Do you understand everything that is written above or do you require assistance or language interpretation?',
+                    'type' => 'custom_boolean',
+                    'options' => [1 => 'Yes', 0 => 'No'],
+                    'value' => $entry->understand ?? 0,
+                ],
                 ['name' => 'notes', 'type' => 'textarea', 'label' => 'Notes'],
             ],
             'ajax' => false,
@@ -179,13 +396,33 @@ class ScriptCrudController extends CrudController
                 ],
 
 
-                [
+                /*[
                     'name' => 'treatment_photos',
                     'label' => 'Treatment Photos',
                     'type' => 'upload',
                     'upload' => true,
                     'disk' => 'public', // or your desired disk
                     'hint' => 'Supported types: JPEG, PNG, PDF. Max file size 5MB.',
+                ],*/
+
+                [
+                    'label'        => "Treatment Photos (Before)",
+                    'name'         => "before_treatment_photos",
+                    'filename'     => "image_filename", // set to null if not needed
+                    'type'         => 'base64_image',
+                    'aspect_ratio' => 1, // set to 0 to allow any aspect ratio
+                    'crop'         => false, // set to true to allow cropping, false to disable
+                    'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
+                ],
+
+                [
+                    'label'        => "Treatment Photos (After)",
+                    'name'         => "after_treatment_photos",
+                    'filename'     => "image_filename", // set to null if not needed
+                    'type'         => 'base64_image',
+                    'aspect_ratio' => 1, // set to 0 to allow any aspect ratio
+                    'crop'         => false, // set to true to allow cropping, false to disable
+                    'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
                 ],
 
                 [
