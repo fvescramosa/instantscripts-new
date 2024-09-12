@@ -1,14 +1,12 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => '01a8738053e2f75124d761573918f431aab7bea9',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '65306d0ec04640826ab88038d8002a7d7be172a0',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
-        'aliases' => array(
-            0 => '10.x-dev',
-        ),
+        'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
@@ -48,12 +46,12 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'backpack/theme-coreuiv4' => array(
-            'pretty_version' => '1.1.2',
-            'version' => '1.1.2.0',
-            'reference' => 'c6f2befe9c23d1f05b76367c009f0b935008c811',
+        'backpack/theme-coreuiv2' => array(
+            'pretty_version' => '1.2.5',
+            'version' => '1.2.5.0',
+            'reference' => 'e1bddfe5a43171fc5ac358906d27f331b1640d8c',
             'type' => 'library',
-            'install_path' => __DIR__ . '/../backpack/theme-coreuiv4',
+            'install_path' => __DIR__ . '/../backpack/theme-coreuiv2',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -481,14 +479,12 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => '01a8738053e2f75124d761573918f431aab7bea9',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '65306d0ec04640826ab88038d8002a7d7be172a0',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
-            'aliases' => array(
-                0 => '10.x-dev',
-            ),
+            'aliases' => array(),
             'dev_requirement' => false,
         ),
         'laravel/pint' => array(

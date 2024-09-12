@@ -182,6 +182,7 @@ class ComposerStaticInitf74e00054e2cf6a00002e9b6e4b95bfe
         array (
             'Brick\\Math\\' => 11,
             'Backpack\\ThemeTabler\\' => 21,
+            'Backpack\\ThemeCoreuiv2\\' => 23,
             'Backpack\\Pro\\' => 13,
             'Backpack\\Generators\\' => 20,
             'Backpack\\CRUD\\' => 14,
@@ -573,6 +574,10 @@ class ComposerStaticInitf74e00054e2cf6a00002e9b6e4b95bfe
         array (
             0 => __DIR__ . '/..' . '/backpack/theme-tabler/src',
         ),
+        'Backpack\\ThemeCoreuiv2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/backpack/theme-coreuiv2/src',
+        ),
         'Backpack\\Pro\\' => 
         array (
             0 => __DIR__ . '/..' . '/backpack/pro/src',
@@ -838,6 +843,7 @@ class ComposerStaticInitf74e00054e2cf6a00002e9b6e4b95bfe
         'Backpack\\Pro\\Jobs\\PurgeTemporaryFiles' => __DIR__ . '/..' . '/backpack/pro/src/Jobs/PurgeTemporaryFiles.php',
         'Backpack\\Pro\\Uploads\\AjaxUploader' => __DIR__ . '/..' . '/backpack/pro/src/Uploads/AjaxUploader.php',
         'Backpack\\Pro\\Uploads\\Validation\\ValidDropzone' => __DIR__ . '/..' . '/backpack/pro/src/Uploads/Validation/ValidDropzone.php',
+        'Backpack\\ThemeCoreuiv2\\AddonServiceProvider' => __DIR__ . '/..' . '/backpack/theme-coreuiv2/src/AddonServiceProvider.php',
         'Backpack\\ThemeTabler\\AddonServiceProvider' => __DIR__ . '/..' . '/backpack/theme-tabler/src/AddonServiceProvider.php',
         'Backpack\\ThemeTabler\\View\\Components\\MenuDropdownColumn' => __DIR__ . '/..' . '/backpack/theme-tabler/src/View/Components/MenuDropdownColumn.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',

@@ -36,6 +36,13 @@
       0 => 'Backpack\\Pro\\AddonServiceProvider',
     ),
   ),
+  'backpack/theme-coreuiv2' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Backpack\\ThemeCoreuiv2\\AddonServiceProvider',
+    ),
+  ),
   'backpack/theme-tabler' => 
   array (
     'providers' => 

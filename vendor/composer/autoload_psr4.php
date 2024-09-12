@@ -99,6 +99,7 @@ return array(
     'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
     'Brick\\Math\\' => array($vendorDir . '/brick/math/src'),
     'Backpack\\ThemeTabler\\' => array($vendorDir . '/backpack/theme-tabler/src'),
+    'Backpack\\ThemeCoreuiv2\\' => array($vendorDir . '/backpack/theme-coreuiv2/src'),
     'Backpack\\Pro\\' => array($vendorDir . '/backpack/pro/src'),
     'Backpack\\Generators\\' => array($vendorDir . '/backpack/generators/src'),
     'Backpack\\CRUD\\' => array($vendorDir . '/backpack/crud/src'),

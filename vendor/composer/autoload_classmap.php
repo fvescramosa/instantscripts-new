@@ -247,6 +247,7 @@ return array(
     'Backpack\\Pro\\Jobs\\PurgeTemporaryFiles' => $vendorDir . '/backpack/pro/src/Jobs/PurgeTemporaryFiles.php',
     'Backpack\\Pro\\Uploads\\AjaxUploader' => $vendorDir . '/backpack/pro/src/Uploads/AjaxUploader.php',
     'Backpack\\Pro\\Uploads\\Validation\\ValidDropzone' => $vendorDir . '/backpack/pro/src/Uploads/Validation/ValidDropzone.php',
+    'Backpack\\ThemeCoreuiv2\\AddonServiceProvider' => $vendorDir . '/backpack/theme-coreuiv2/src/AddonServiceProvider.php',
     'Backpack\\ThemeTabler\\AddonServiceProvider' => $vendorDir . '/backpack/theme-tabler/src/AddonServiceProvider.php',
     'Backpack\\ThemeTabler\\View\\Components\\MenuDropdownColumn' => $vendorDir . '/backpack/theme-tabler/src/View/Components/MenuDropdownColumn.php',
     'Brick\\Math\\BigDecimal' => $vendorDir . '/brick/math/src/BigDecimal.php',

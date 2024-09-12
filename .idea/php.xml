@@ -128,6 +128,7 @@
       <path value="$PROJECT_DIR$/vendor/backpack/theme-tabler" />
       <path value="$PROJECT_DIR$/vendor/backpack/pro" />
       <path value="$PROJECT_DIR$/vendor/backpack/theme-coreuiv4" />
+      <path value="$PROJECT_DIR$/vendor/backpack/theme-coreuiv2" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />
