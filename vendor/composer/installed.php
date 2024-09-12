@@ -1,12 +1,14 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => '01a8738053e2f75124d761573918f431aab7bea9',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
-        'aliases' => array(),
+        'aliases' => array(
+            0 => '10.x-dev',
+        ),
         'dev' => true,
     ),
     'versions' => array(
@@ -43,6 +45,15 @@
             'reference' => '79a1249fbe38118bfe703af0b24dd196bcfd7de5',
             'type' => 'library',
             'install_path' => __DIR__ . '/../backpack/pro',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'backpack/theme-coreuiv4' => array(
+            'pretty_version' => '1.1.2',
+            'version' => '1.1.2.0',
+            'reference' => 'c6f2befe9c23d1f05b76367c009f0b935008c811',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../backpack/theme-coreuiv4',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -470,12 +481,14 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '01a8738053e2f75124d761573918f431aab7bea9',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
-            'aliases' => array(),
+            'aliases' => array(
+                0 => '10.x-dev',
+            ),
             'dev_requirement' => false,
         ),
         'laravel/pint' => array(

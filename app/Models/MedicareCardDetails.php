@@ -45,6 +45,10 @@ class MedicareCardDetails extends Model
     public function patient(){
         return $this->belongsTo(Patient::class);
     }
+
+    public function treatment_details(){
+        return $this->hasMany(TreatmentDetail::class);
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES

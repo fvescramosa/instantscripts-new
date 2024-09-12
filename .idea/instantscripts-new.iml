@@ -134,6 +134,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/backpack/theme-tabler" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/backpack/pro" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/backpack/theme-coreuiv4" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
