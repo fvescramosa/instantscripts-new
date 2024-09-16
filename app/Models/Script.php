@@ -50,6 +50,8 @@ class Script extends Model
     public function medicine_category(){
         return $this->belongsTo(MedicineCategory::class);
     }
+
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES

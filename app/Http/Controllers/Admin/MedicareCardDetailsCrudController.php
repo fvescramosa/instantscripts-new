@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\MedicareCardDetailsRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 
 /**
  * Class MedicareCardDetailsCrudController
@@ -18,10 +19,11 @@ class MedicareCardDetailsCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -33,7 +35,7 @@ class MedicareCardDetailsCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -49,13 +51,23 @@ class MedicareCardDetailsCrudController extends CrudController
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
     protected function setupCreateOperation()
     {
         CRUD::setValidation(MedicareCardDetailsRequest::class);
+        CRUD::addField([
+            'name' => 'patient_id',
+            'type' => 'relationship',
+            'entity' => 'patient',
+            'model' => 'App\Models\Patient',
+            'attribute' => 'text',
+            'ajax' => true,
+//            'inline_create' => true
+        ]);
+
         CRUD::setFromDb(); // set fields from db columns.
 
         /**
@@ -66,7 +78,7 @@ class MedicareCardDetailsCrudController extends CrudController
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
@@ -74,4 +86,29 @@ class MedicareCardDetailsCrudController extends CrudController
     {
         $this->setupCreateOperation();
     }
+    public function fetchPatient()
+    {
+        $query = \App\Models\Patient::query();
+
+        if (request()->has('q')) {
+            $search = request()->input('q');
+            $query->where(function ($query) use ($search) {
+                $query->where('first_name', 'LIKE', "%$search%")
+                    ->orWhere('last_name', 'LIKE', "%$search%")
+                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$search%"]);
+            });
+        }
+
+        $patients = $query->get();
+
+        $results = $patients->map(function ($patient) {
+            return [
+                'id' => $patient->id,
+                'text' => $patient->first_name . ' ' . $patient->last_name
+            ];
+        });
+
+        return response()->json($results);
+    }
+
 }

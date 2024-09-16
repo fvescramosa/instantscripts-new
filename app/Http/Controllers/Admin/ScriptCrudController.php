@@ -239,6 +239,27 @@ class ScriptCrudController extends CrudController
             'type' => 'signature',
         ]);
 
+        CRUD::addField([
+            'name' => 'treatment_detail[medicare_card_details_id]',
+            'type' => 'relationship',
+            'label' => 'Medicare Card Details',
+            'entity' => 'patient.medicare_card_details',
+            'model' => 'App\Models\MedicareCardDetails',
+            'attribute' => 'card_number',
+            'ajax' => true,
+            'inline_create' => [
+                'entity' => 'medicare_card_details',
+                'modal_class' => 'modal-lg',
+                'force_select' => true
+            ],
+//            'depends_on' => 'patient_id',
+            'dependencies' => ['patient_id'],
+            'data_source' => url('admin/fetch-medicare-card-details'), // Adding patient_id to the URL
+            'placeholder' => 'Select a Medicare Card',
+            'minimum_input_length' => 0,
+        ]);
+
+
         CRUD::setFromDb(); // set fields from db columns.
 
 
@@ -488,4 +509,26 @@ class ScriptCrudController extends CrudController
 
         return response()->json($results);
     }
+
+    public function fetchMedicareCardDetails()
+    {
+        $query = \App\Models\MedicareCardDetails::query();
+        $patient_id = request()->input('patient_id');
+        if ($patient_id) {
+
+            $query->where('patient_id', $patient_id); // Fetching the MedicareCardDetails related to the selected patient
+        }
+
+        $medicareCards = $query->get();
+
+        $results = $medicareCards->map(function ($medicareCard) {
+            return [
+                'id' => $medicareCard->id,
+                'card_number' => $medicareCard->card_number // Replace 'card_number' with whatever column you'd like to display
+            ];
+        });
+
+        return response()->json($results);
+    }
+
 }

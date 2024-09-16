@@ -22,7 +22,7 @@ class MedicareCardDetails extends Model
     // public $timestamps = false;
     protected $guarded = ['id'];
      protected $fillable = [
-
+        'patient_id',
         'card_number',
         'ref_number',
         'concession_card',
