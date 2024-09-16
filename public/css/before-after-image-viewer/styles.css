@@ -1,0 +1,18 @@
+.before-after-container {
+    position: relative;
+}
+
+.before-image, .after-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.after-image {
+    opacity: 0;
+}
+
+.before-after-container:hover .after-image {
+    opacity: 1;
+}

@@ -229,25 +229,14 @@ class ScriptCrudController extends CrudController
             'hint' => 'By signing the below, I am consenting to the treatment as explained by the practitioner and acknowledge that I will receive details of the treatment, consultation, consent, and all related conditions and guidance.'
         ]);
 
+
+
         CRUD::addfield([
-            'name' => 'treatment_detail[patient_signature]',
+            'name'  => 'treatment_detail[patient_signature]',
             'label' => 'Patient Declaration (Signature Required)',
             'entity' => 'treatment_detail',
             'model' => 'App\Models\TreatmentDetail',
-            'type' => 'upload',
-            'upload' => true,
-            'disk' => 'public', // or your desired disk
-            'hint' => 'Please upload your signature as an image file.',
-        ]);
-
-        CRUD::addField([
-            'name' => 'treatment_detail[medicare_card_details_id]',
-            'type' => 'relationship',
-            'entity' => 'patient.medicare_card_details',
-            'model' => 'App\Models\Patient',
-            'attribute' => 'text',
-            'ajax' => true,
-            'inline_create' => true
+            'type' => 'signature',
         ]);
 
         CRUD::setFromDb(); // set fields from db columns.
@@ -273,209 +262,6 @@ class ScriptCrudController extends CrudController
         // automatically add the columns
 //        $this->autoSetupShowOperation();
 
-
-        /*CRUD::addColumn([
-            'name' => 'medical_consultations',
-            'label' => 'Medical Consultation',
-            'type' => 'relationship',
-            'entity' => 'medical_consultations',
-            'attribute' => 'id', // or another attribute you want to display
-            'tab' => 'Medical Consultations',
-            'columns' => [
-                [
-                    'name' => 'consultation_date',
-                    'type' => 'date',
-                    'label' => 'Consultation Date',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'serious_health_problems',
-                    'type' => 'boolean',
-                    'label' => 'Do you have any serious health problems, including any blood borne diseases or blood disorders?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'epilepsy_seizures_fainting',
-                    'type' => 'boolean',
-                    'label' => 'Do you suffer from epilepsy, seizures or fainting?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'autoimmune_disease',
-                    'type' => 'boolean',
-                    'label' => 'Do you have a history of autoimmune disease?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'surgery_history',
-                    'type' => 'boolean',
-                    'label' => 'Have you had any surgery, including cosmetic surgery?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'medications_supplements',
-                    'type' => 'boolean',
-                    'label' => 'Are you currently taking any medications or health supplements (prescribed or otherwise)?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'myasthenia_gravis',
-                    'type' => 'boolean',
-                    'label' => 'Have you been diagnosed with myasthenia gravis, Eaton-Lambert (myasthenic) syndrome, or any conditions that cause weakness in the muscles?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'cold_sores',
-                    'type' => 'boolean',
-                    'label' => 'Do you suffer from cold sores?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'pregnant_breastfeeding',
-                    'type' => 'boolean',
-                    'label' => 'Are you currently pregnant / breastfeeding or planning a pregnancy in the next 3 months including IVF?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'allergic_anything',
-                    'type' => 'boolean',
-                    'label' => 'Are you allergic to anything (including anaesthetics, adrenaline, medications)?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'sensitive_bees',
-                    'type' => 'boolean',
-                    'label' => 'Do you have any sensitivities or reactions to bee/wasp stings?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'numbing_injection',
-                    'type' => 'boolean',
-                    'label' => 'Have you ever had a numbing injection at the dentist?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'keloid_scarring',
-                    'type' => 'boolean',
-                    'label' => 'Do you have a history of abnormal scarring or keloid scarring?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'intend_to_surgical_invasive',
-                    'type' => 'boolean',
-                    'label' => 'Do you intend to have any surgical invasive dental procedures within the next 4 weeks or have you had any procedures within the last 4 weeks?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'implants',
-                    'type' => 'boolean',
-                    'label' => 'Do you have any implants or metalwork?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'vaccination',
-                    'type' => 'boolean',
-                    'label' => 'Have you received any vaccinations in the past 14 days, or do you intend on getting any vaccination in the next 14 days?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'tropical_treatment',
-                    'type' => 'boolean',
-                    'label' => 'Are you currently being treated with isotretinoin capsules or topical treatment (brands include Roaccutane, Oratane, Rocta, Dermatane and Isotrex)?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'anti_wrinkle',
-                    'type' => 'boolean',
-                    'label' => 'Have you ever received Botulinum Toxin Type A or other anti-wrinkle treatments before?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'dermal_fillers',
-                    'type' => 'boolean',
-                    'label' => 'Have you ever received dermal fillers before?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'stimulatory_fillers',
-                    'type' => 'boolean',
-                    'label' => 'Have you ever received a treatment with stimulatory fillers such as Sculptra or Radiesse?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'injectable_procedure',
-                    'type' => 'boolean',
-                    'label' => 'Have you ever had any complications with your previous cosmetic injectable procedures?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'smoke',
-                    'type' => 'boolean',
-                    'label' => 'Do you smoke?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'travel',
-                    'type' => 'boolean',
-                    'label' => 'Do you intend to travel internationally in the following 2 weeks?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'appearance',
-                    'type' => 'boolean',
-                    'label' => 'Are you worried about the way you look, and do you think about your appearance a lot and wish you could think about it less?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'affected_daily_life',
-                    'type' => 'boolean',
-                    'label' => 'Has the way you feel about it affected your daily life activities such as school, work or other activities?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'avoid_gatherings',
-                    'type' => 'boolean',
-                    'label' => 'Are there things you avoid because of how you look, such as gatherings, going out etc?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'thinking_look',
-                    'type' => 'boolean',
-                    'label' => 'Do you spend more than 2-3 hours a day thinking about how you look?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'life_adversely',
-                    'type' => 'boolean',
-                    'label' => 'If you could not have a cosmetic treatment today, would this affect your life adversely?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'before_after',
-                    'type' => 'boolean',
-                    'label' => 'Do you consent to have your before and after photos taken for the purpose of medical records?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'fully_consent',
-                    'type' => 'boolean',
-                    'label' => 'Have you been advised of the risks and fully consented for this treatment?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'understand',
-                    'type' => 'boolean',
-                    'label' => 'Do you understand everything that is written above or do you require assistance or language interpretation?',
-                    'tab' => 'Medical Consultation',
-                ],
-                [
-                    'name' => 'notes',
-                    'type' => 'textarea',
-                    'label' => 'Notes',
-                    'tab' => 'Medical Consultation',
-                ],
-            ]
-        ]);*/
 
 
         $this->crud->addColumn([
@@ -530,11 +316,11 @@ class ScriptCrudController extends CrudController
             ['name' => 'understand', 'label' => 'Do you understand everything that is written above or do you require assistance or language interpretation?'],
             ['name' => 'notes', 'label' => 'Notes'],
         ];
-    $this->crud->addField([
-                'name' => 'medical_consultation_tab',
-                'type' => 'hidden',
-                'tab' => 'Medical Consultation', // This creates the tab
-            ]);
+        $this->crud->addField([
+                    'name' => 'medical_consultation_tab',
+                    'type' => 'hidden',
+                    'tab' => 'Medical Consultation', // This creates the tab
+                ]);
         foreach ($fields as $field){
             $this->crud->addColumn([
                 'name' => 'medical_consultation.'.$field['name'],
@@ -565,21 +351,29 @@ class ScriptCrudController extends CrudController
             ['name' => 'consent_to_photographs', 'label' => 'Patient Consent to Photographs']
         ];
 
+        $this->crud->addColumn([
+            'name' => 'before_after_photos',
+            'type' => 'custom_html',
+            'label' => 'Before After Treatment', // Leave the label empty
+            'tab' => 'Treatment Details',
+            'value' => view('script.treatment_detail.before_after')->with('entry', $this->crud->getCurrentEntry())->render(),
+        ]);
 
-        $this->crud->addColumn([
-            'name'  => 'treatment_detail.before_treatment_photos',
-            'type'  => 'image',
-            'tab' => 'Treatment Details',
-            'label' => 'Treatment Photos (Before)',
-            'prefix' => 'storage/', // If you are using 'public' disk
-        ]);
-        $this->crud->addColumn([
-            'name'  => 'treatment_detail.after_treatment_photos',
-            'type'  => 'image',
-            'tab' => 'Treatment Details',
-            'label' => 'Treatment Photos (After)',
-            'prefix' => 'storage/', // If you are using 'public' disk
-        ]);
+
+        /* $this->crud->addColumn([
+             'name'  => 'treatment_detail.before_treatment_photos',
+             'type'  => 'image',
+             'tab' => 'Treatment Details',
+             'label' => 'Treatment Photos (Before)',
+
+         ]);
+         $this->crud->addColumn([
+             'name'  => 'treatment_detail.after_treatment_photos',
+             'type'  => 'image',
+             'tab' => 'Treatment Details',
+             'label' => 'Treatment Photos (After)',
+
+         ]);*/
         foreach ($treament_fields as $treament_field){
             $this->crud->addColumn([
                 'name' => 'treatment_detail.'.$treament_field['name'],
@@ -593,7 +387,13 @@ class ScriptCrudController extends CrudController
             ]);
 
         }
+        $this->crud->addColumn([
+            'name'  => 'treatment_detail.patient_signature',
+            'type'  => 'image',
+            'tab' => 'Treatment Details',
+            'label' => 'Patient Signature',
 
+        ]);
     }
 
 
