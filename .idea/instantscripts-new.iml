@@ -136,6 +136,12 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/backpack/pro" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/backpack/theme-coreuiv4" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/backpack/theme-coreuiv2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dompdf/dompdf" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dompdf/php-svg-lib" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dompdf/php-font-lib" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/barryvdh/laravel-dompdf" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sabberworm/php-css-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/masterminds/html5" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

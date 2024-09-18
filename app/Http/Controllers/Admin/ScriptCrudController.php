@@ -443,7 +443,19 @@ class ScriptCrudController extends CrudController
 
             if (request()->has('treatment_detail')) {
                 $treatmentDetails = request('treatment_detail');
-                $script->treatment_detail()->create( array_merge( $treatmentDetails, ['patient_id' => request('patient_id')]));
+//                $script->treatment_detail()->create( array_merge( $treatmentDetails, ['patient_id' => request('patient_id')]));
+                $script->treatment_detail()->create([
+                    'quantity' => $treatmentDetails['quantity'],
+                    'location' => $treatmentDetails['location'],
+                    'extra_notes' => $treatmentDetails['extra_notes'],
+                    'before_treatment_photos' => $treatmentDetails['before_treatment_photos'],
+                    'after_treatment_photos' => $treatmentDetails['after_treatment_photos'],
+                    'consent_to_photographs' => $treatmentDetails['consent_to_photographs'],
+                    'consent_to_treatment' => $treatmentDetails['consent_to_treatment'],
+                    'patient_signature' => $treatmentDetails['patient_signature'],
+                    'medicare_card_details_id' => $treatmentDetails['medicare_card_details_id'],
+                    'patient_id' => request('patient_id') // Add patient_id for foreign key
+                ]);
             }
 
             DB::commit();
