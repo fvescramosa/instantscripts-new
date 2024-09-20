@@ -117,6 +117,27 @@ class TreatmentDetail extends Model
 
         return $value ? Storage::url($value) : null;
     }
+
+    public function setPatientSignatureAttribute($value)
+    {
+        if (is_string($value) && strpos($value, 'data:image/') === 0) {
+            // Process the base64 string to store the image
+            $imageName = 'patient_signature_' . time() . '.' . explode('/', explode(':', substr($value, 0, strpos($value, ';')))[1])[1];
+            $imagePath = 'images/signatures' . $imageName;
+
+            // Save the image
+            Storage::disk('public')->put($imagePath, base64_decode(substr($value, strpos($value, ',') + 1)));
+
+            $this->attributes['patient_signature'] = $imagePath;
+        } else {
+            $this->attributes['patient_signature'] = $value;
+        }
+    }
+
+    public function getPatientSignatureAttribute($value)
+    {
+        return $value ? Storage::url($value) : null;
+    }
     /*
     |--------------------------------------------------------------------------
     | MUTATORS

@@ -14,11 +14,13 @@ class ScriptController extends Controller
 
     public function generatePDF($id=1)
     {
-        $script = Script::with(['patient', 'medical_consultation', 'treatment_detail', 'treatment_detail.medicare_card_detail'])->find(1);
+        $script = Script::with(['patient', 'medical_consultation', 'treatment_detail', 'treatment_detail.medicare_card_detail'])->find($id);
 
 
-        $pdf = PDF::loadView('pdf.script', compact('script'));
+        $pdf = PDF::loadView('pdf.script', compact('script'))->setPaper('a4', 'landscape');
 
-        return $pdf->download('script_' . $script->id . '.pdf');
+//        return $pdf;
+        return $pdf->download('script_' . $script->id . '_'. $script->patient->last_name .'_'. $script->patient->first_name .'_'. date('m_d_Y_his').'.pdf');
+//        return view('pdf.script', compact(['script']));
     }
 }

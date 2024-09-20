@@ -7,6 +7,7 @@ use App\Models\Patient;
 use App\Models\Script;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\CRUD\app\Library\Widget;
 use Illuminate\Support\Facades\DB;
 use mysql_xdevapi\Exception;
 use Prologue\Alerts\Facades\Alert;
@@ -61,10 +62,21 @@ class ScriptCrudController extends CrudController
             'type' => 'date',
             'label' => 'Consultation Date',
         ]);
+
+
         /**
          * Columns can be defined using the fluent syntax:
          * - CRUD::column('price')->type('number');
          */
+
+        $this->crud->addColumn([
+            'name' => 'generate_pdf',
+            'label' => 'Export',
+            'type' => 'custom_html',
+            'value' => function($entry) {
+                return '<a href="'.url('admin/script/'.$entry->getKey().'/generate-pdf').'" class="btn btn-sm btn-primary" target="_blank">Generate PDF</a>';
+            },
+        ]);
     }
 
 
@@ -78,6 +90,20 @@ class ScriptCrudController extends CrudController
     {
         CRUD::setValidation(ScriptRequest::class);
 
+        $this->crud->setValidation([
+            'treatment_detail.quantity' => 'required',
+            'treatment_detail.location' => 'required',
+            'treatment_detail.extra_notes' => 'required',
+            'treatment_detail.before_treatment_photos' => 'required',
+            'treatment_detail.after_treatment_photos' => 'required',
+            'treatment_detail.consent_to_photographs' => 'required',
+            'treatment_detail.consent_to_treatment' => 'required',
+            'treatment_detail.patient_signature' => 'required',
+            'treatment_detail.medicare_card_details_id' => 'required',
+            'medical_consultation.consultation_date' => 'required',
+            'patient_id' => 'required',
+
+        ]);
         /*CRUD::addField([
             'type' => "relationship",
             'name' => 'patient_id', // the method on your model that defines the relationship
@@ -335,7 +361,7 @@ class ScriptCrudController extends CrudController
             ['name' => 'before_after', 'label' => 'Do you consent to have your before and after photos taken for the purpose of medical records?'],
             ['name' => 'fully_consent', 'label' => 'Have you been advised of the risks and fully consented for this treatment?'],
             ['name' => 'understand', 'label' => 'Do you understand everything that is written above or do you require assistance or language interpretation?'],
-            ['name' => 'notes', 'label' => 'Notes'],
+
         ];
         $this->crud->addField([
                     'name' => 'medical_consultation_tab',
@@ -356,7 +382,13 @@ class ScriptCrudController extends CrudController
             ]);
 
         }
+        $this->crud->addColumn([
+            'name' => 'medical_consultation.notes',
+            'type' => 'text',
+            'tab' => 'Medical Consultation',
+            'label' => 'Notes',
 
+        ]);
         $this->crud->addField([
             'name' => 'treatment_detail_tab',
             'type' => 'hidden',
@@ -380,6 +412,21 @@ class ScriptCrudController extends CrudController
             'value' => view('script.treatment_detail.before_after')->with('entry', $this->crud->getCurrentEntry())->render(),
         ]);
 
+        /*Widget::add(
+            [
+                'type'       => 'card',
+
+                 'wrapper' => [
+                     'class' => 'col-sm-12 col-md-12',
+                     'tab'   => 'Treatment Details'
+                 ], // optional
+                // 'class'   => 'card bg-dark text-white', // optional
+                'content'    => [
+                    'header' => 'Before After', // optional
+                    'body'   => view('script.treatment_detail.before_after')->with('entry', $this->crud->getCurrentEntry())->render()
+                ]
+            ]
+        );*/
 
         /* $this->crud->addColumn([
              'name'  => 'treatment_detail.before_treatment_photos',
@@ -444,6 +491,8 @@ class ScriptCrudController extends CrudController
             if (request()->has('treatment_detail')) {
                 $treatmentDetails = request('treatment_detail');
 //                $script->treatment_detail()->create( array_merge( $treatmentDetails, ['patient_id' => request('patient_id')]));
+
+
                 $script->treatment_detail()->create([
                     'quantity' => $treatmentDetails['quantity'],
                     'location' => $treatmentDetails['location'],
@@ -453,7 +502,7 @@ class ScriptCrudController extends CrudController
                     'consent_to_photographs' => $treatmentDetails['consent_to_photographs'],
                     'consent_to_treatment' => $treatmentDetails['consent_to_treatment'],
                     'patient_signature' => $treatmentDetails['patient_signature'],
-                    'medicare_card_details_id' => $treatmentDetails['medicare_card_details_id'],
+                    'medicare_card_details_id' => $treatmentDetails['medicare_card_details_id'][0],
                     'patient_id' => request('patient_id') // Add patient_id for foreign key
                 ]);
             }
