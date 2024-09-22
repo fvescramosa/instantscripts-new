@@ -1,0 +1,22 @@
+.video-call{
+    button, .btn-option{
+
+        width: 100%;
+        min-height: 60px;
+        max-width: 180px;
+        border-radius: 35px !important;
+        background: #fff;
+        color: #000;
+        border:1px solid #95785e;
+        margin-bottom: 20px;
+    &.selected{
+         background: #95785e;
+         color: #fff;
+     }
+
+    &:hover{
+         background: #95785e;
+         color: #fff;
+     }
+    }
+}

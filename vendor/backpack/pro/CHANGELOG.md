@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.2.17](https://github.com/Laravel-Backpack/PRO/tree/2.2.17) (16-Sep-2024)
+
+- Phone field fixes - add all input assets, fix default country selection [\#279](https://github.com/Laravel-Backpack/PRO/pull/279) (@pxpm)
+
+## [2.2.16](https://github.com/Laravel-Backpack/PRO/tree/2.2.16) (10-Sep-2024)
+
+- Update phone field library from 17.0.19 to 24.4.0 [\#278](https://github.com/Laravel-Backpack/PRO/pull/278) (@jcastroa87)
+
+## [2.2.15](https://github.com/Laravel-Backpack/PRO/tree/2.2.15) (06-Sep-2024)
+
+- add css rules to repeatable control buttons [\#277](https://github.com/Laravel-Backpack/PRO/pull/277) (@pxpm)
+
 ## [2.2.14](https://github.com/Laravel-Backpack/PRO/tree/2.2.14) (16-Aug-2024)
 
 - add span to buttons [\#274](https://github.com/Laravel-Backpack/PRO/pull/274) (@pxpm)

@@ -12,15 +12,15 @@
         border-radius: 35px !important;
         background: #fff;
         color: #000;
-        border:1px solid #7c69ef;
+        border:1px solid #95785e;
 
         &.selected{
-            background: #7c69ef;
+            background: #95785e;
             color: #fff;
         }
 
         &:hover{
-             background: #7c69ef;
+             background: #95785e;
              color: #fff;
          }
     }

@@ -8,6 +8,7 @@ use App\Models\Script;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
+use http\Env\Request;
 use Illuminate\Support\Facades\DB;
 use mysql_xdevapi\Exception;
 use Prologue\Alerts\Facades\Alert;
@@ -91,6 +92,7 @@ class ScriptCrudController extends CrudController
         CRUD::setValidation(ScriptRequest::class);
 
         $this->crud->setValidation([
+            'need_to_talk_to_doctor' => 'required',
             'treatment_detail.quantity' => 'required',
             'treatment_detail.location' => 'required',
             'treatment_detail.extra_notes' => 'required',
@@ -113,6 +115,16 @@ class ScriptCrudController extends CrudController
         ]);*/
 
         CRUD::addField([
+            'name' => 'need_to_talk_to_doctor',
+            'label' => 'Do you need to talk to the doctor?',
+            'entity' => 'medical_consultation',
+            'type' => 'radio',
+            'options' => [1 => 'Yes', 0 => 'No'],
+            'value' => $entry->need_to_talk_to_doctor ?? 0,
+//            'wrapper' => 'card'
+        ]);
+
+        CRUD::addField([
             'name' => 'patient_id',
             'type' => 'relationship',
             'entity' => 'patient',
@@ -122,7 +134,7 @@ class ScriptCrudController extends CrudController
             'inline_create' => true
         ]);
 
-        CRUD::addField([
+        /*CRUD::addField([
             'name' => 'medicine_category_id',
             'type' => 'relationship',
             'entity' => 'medicine_category',
@@ -130,6 +142,23 @@ class ScriptCrudController extends CrudController
             'attribute' => 'category',
             'ajax' => true,
             'inline_create' => true
+        ]);*/
+
+
+        CRUD::addField([
+            'name' => 'medicine_category_id',
+            'label' => 'Select Medicine Category',
+            'type' => 'category_tile', // The custom field type
+            'options' => \App\Models\MedicineCategory::all(), // Fetch all options from the medicine_categories table
+        ]);
+
+        $this->crud->addField([
+            'name' => 'video_call_test', // Name of the field (not stored in the database)
+            'label' => 'Video Call Test',
+            'type' => 'video_call_test', // Corresponding to the name of the blade file
+            'wrapper' => [
+                'class' => 'card mb-12 col-sm-12 p-4', // You can modify these Bootstrap classes as needed
+            ],
         ]);
 
         CRUD::addField([
@@ -173,16 +202,19 @@ class ScriptCrudController extends CrudController
             ['name' => 'understand', 'label' => 'Do you understand everything that is written above or do you require assistance or language interpretation?'],
         ];
 
+        $ctr = 1;
         foreach ($fields as $field) {
             CRUD::addField([
                 'name' => 'medical_consultation['.$field['name'].']',
-                'label' => $field['label'],
+                'label' => $ctr. '. ' .$field['label'],
                 'entity' => 'medical_consultation',
                 'model' => 'App\Models\MedicalConsultation',
                 'type' => 'custom_boolean',
                 'options' => [1 => 'Yes', 0 => 'No'],
                 'value' => $entry->$field['name'] ?? 0,
             ]);
+
+            $ctr++;
         }
 
 
@@ -202,7 +234,7 @@ class ScriptCrudController extends CrudController
             'entity' => 'treatment_detail',
             'model' => 'App\Models\TreatmentDetail',
             'label' => 'Location',
-            'type' => 'text',
+
         ]);
 
         CRUD::addfield([
@@ -245,6 +277,7 @@ class ScriptCrudController extends CrudController
             'type' => 'radio',  'options' => [0 => 'No', 1 => 'Yes'],
             'hint' => 'I understand and consent to photographs being taken before and after this treatment.'
         ]);
+
 
         CRUD::addfield([
             'name' => 'treatment_detail[consent_to_treatment]',
@@ -574,22 +607,38 @@ class ScriptCrudController extends CrudController
     public function fetchMedicareCardDetails()
     {
         $query = \App\Models\MedicareCardDetails::query();
-        $patient_id = request()->input('patient_id');
-        if ($patient_id) {
 
-            $query->where('patient_id', $patient_id); // Fetching the MedicareCardDetails related to the selected patient
+        $patient_id = false;
+
+
+        foreach (request()->all()['form'] as $form){
+            if($form['name'] == 'patient_id'){
+                $patient_id = $form['value'];
+            }
         }
 
-        $medicareCards = $query->get();
+        if ($patient_id) {
 
-        $results = $medicareCards->map(function ($medicareCard) {
-            return [
-                'id' => $medicareCard->id,
-                'card_number' => $medicareCard->card_number // Replace 'card_number' with whatever column you'd like to display
-            ];
-        });
+           $query->where('patient_id', $patient_id); // Fetching the MedicareCardDetails related to the selected patient
 
-        return response()->json($results);
+            if(request()->has('q')){
+                $search =  request()->input('q');
+                $query->where('card_number', 'LIKE', "%$search%");
+            }
+
+            $medicareCards = $query->get();
+
+            $results = $medicareCards->map(function ($medicareCard) {
+                return [
+                    'id' => $medicareCard->id,
+                    'card_number' => $medicareCard->card_number // Replace 'card_number' with whatever column you'd like to display
+                ];
+            });
+
+
+        }
+        return response()->json($results ?? '');
+
     }
 
 }

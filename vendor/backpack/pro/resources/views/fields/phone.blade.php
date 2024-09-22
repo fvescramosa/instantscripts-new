@@ -7,7 +7,7 @@
         'nationalMode' => true,
         'autoHideDialCode' => false,
         'placeholderNumberType' => 'MOBILE',
-        'utilsScript' => 'https://unpkg.com/intl-tel-input@17.0.19/build/js/utils.js',
+        'utilsScript' => 'https://unpkg.com/intl-tel-input@24.4.0/build/js/utils.js',
         'customContainer' => '',
     ], $field['config'] ?? []);
 @endphp
@@ -38,9 +38,19 @@
     {{-- FIELD CSS - will be loaded in the after_styles section --}}
     @push('crud_fields_styles')
         {{-- include intl-tel-input css --}}
-        @basset('https://unpkg.com/intl-tel-input@17.0.19/build/img/flags.png', false, [], false)
-        @basset('https://unpkg.com/intl-tel-input@17.0.19/build/img/flags@2x.png', false, [], false)
-        @basset('https://unpkg.com/intl-tel-input@17.0.19/build/css/intlTelInput.min.css')
+        @basset('https://unpkg.com/intl-tel-input@24.4.0/build/img/flags.png', false, [], false)
+        @basset('https://unpkg.com/intl-tel-input@24.4.0/build/img/flags@2x.png', false, [], false)
+        @basset('https://unpkg.com/intl-tel-input@24.4.0/build/img/flags.webp', false, [], false)
+        @basset('https://unpkg.com/intl-tel-input@24.4.0/build/img/flags@2x.webp', false, [], false)
+        @basset('https://unpkg.com/intl-tel-input@24.4.0/build/img/globe.webp', false, [], false)
+        @basset('https://unpkg.com/intl-tel-input@24.4.0/build/img/globe@2x.webp', false, [], false)
+        @basset('https://unpkg.com/intl-tel-input@24.4.0/build/img/globe.png', false, [], false)
+        @basset('https://unpkg.com/intl-tel-input@24.4.0/build/img/globe@2x.png', false, [], false)
+        @basset('https://unpkg.com/intl-tel-input@24.4.0/build/img/globe_light.webp', false, [], false)
+        @basset('https://unpkg.com/intl-tel-input@24.4.0/build/img/globe_light@2x.webp', false, [], false)
+        @basset('https://unpkg.com/intl-tel-input@24.4.0/build/img/globe_light.png', false, [], false)
+        @basset('https://unpkg.com/intl-tel-input@24.4.0/build/img/globe_light@2x.png', false, [], false)
+        @basset('https://unpkg.com/intl-tel-input@24.4.0/build/css/intlTelInput.min.css')
         @bassetBlock('backpack/pro/fields/phone-field.css')
         <style>
         .iti { width: 100%; margin-bottom: 0rem !important;}
@@ -53,14 +63,16 @@
     {{-- FIELD JS - will be loaded in the after_scripts section --}}
     @push('crud_fields_scripts')
         {{-- include intl-tel-input js --}}
-        @basset('https://unpkg.com/intl-tel-input@17.0.19/build/js/intlTelInput.min.js')
+        @basset('https://unpkg.com/intl-tel-input@24.4.0/build/js/intlTelInput.min.js')
         @bassetBlock('backpack/pro/fields/phone-field.js')
         <script>
             function bpFieldInitPhoneElement(element) {
                 let $phoneConfig = element.data('config');
 
                 var input = element[0];
-                var countryCode = 'us';
+
+                var countryCode = $phoneConfig.initialCountry !== 'auto' ? $phoneConfig.initialCountry : (typeof $phoneConfig.onlyCountries === 'object'  ? $phoneConfig.onlyCountries[0] : 'us');
+
                 var hidden = element.parent().find('input[type="hidden"]')[0];
 
                 if($phoneConfig.shouldDoGeoIpLookup) {
