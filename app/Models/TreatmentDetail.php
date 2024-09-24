@@ -5,6 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class TreatmentDetail extends Model
 {
@@ -31,9 +32,12 @@ class TreatmentDetail extends Model
         'follow_up_payment',
         'possible_expenses',
         'treatment_photos',
+        'before_treatment_photos',
+        'after_treatment_photos',
         'consent_to_photographs',
         'consent_to_treatment',
         'patient_signature',
+        'medicare_card_details_id',
     ];
     // protected $hidden = [];
 
@@ -55,7 +59,9 @@ class TreatmentDetail extends Model
     public function scripts(){
         return $this->belongsTo(Script::class);
     }
-
+    public function medicare_card_detail(){
+        return $this->belongsTo(MedicareCardDetails::class);
+    }
 
 
     /*
@@ -69,7 +75,69 @@ class TreatmentDetail extends Model
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
+    public function setBeforeTreatmentPhotosAttribute($value)
+    {
+        if (is_string($value) && strpos($value, 'data:image/') === 0) {
+            // Process the base64 string to store the image
+            $imageName = 'before_treatment_photos_' . time() . '.' . explode('/', explode(':', substr($value, 0, strpos($value, ';')))[1])[1];
+            $imagePath = 'images/' . $imageName;
 
+            // Save the image
+            Storage::disk('public')->put($imagePath, base64_decode(substr($value, strpos($value, ',') + 1)));
+
+            $this->attributes['before_treatment_photos'] = $imagePath;
+        } else {
+            $this->attributes['before_treatment_photos'] = $value;
+        }
+    }
+
+    public function getBeforeTreatmentPhotosAttribute($value)
+    {
+        return $value ? Storage::url($value) : null;
+    }
+
+    public function setAfterTreatmentPhotosAttribute($value)
+    {
+        if (is_string($value) && strpos($value, 'data:image/') === 0) {
+            // Process the base64 string to store the image
+            $imageName = 'after_treatment_photos_' . time() . '.' . explode('/', explode(':', substr($value, 0, strpos($value, ';')))[1])[1];
+            $imagePath = 'images/' . $imageName;
+
+            // Save the image
+            Storage::disk('public')->put($imagePath, base64_decode(substr($value, strpos($value, ',') + 1)));
+
+            $this->attributes['after_treatment_photos'] = $imagePath;
+        } else {
+            $this->attributes['after_treatment_photos'] = $value;
+        }
+    }
+
+    public function getAfterTreatmentPhotosAttribute($value)
+    {
+
+        return $value ? Storage::url($value) : null;
+    }
+
+    public function setPatientSignatureAttribute($value)
+    {
+        if (is_string($value) && strpos($value, 'data:image/') === 0) {
+            // Process the base64 string to store the image
+            $imageName = 'patient_signature_' . time() . '.' . explode('/', explode(':', substr($value, 0, strpos($value, ';')))[1])[1];
+            $imagePath = 'images/signatures' . $imageName;
+
+            // Save the image
+            Storage::disk('public')->put($imagePath, base64_decode(substr($value, strpos($value, ',') + 1)));
+
+            $this->attributes['patient_signature'] = $imagePath;
+        } else {
+            $this->attributes['patient_signature'] = $value;
+        }
+    }
+
+    public function getPatientSignatureAttribute($value)
+    {
+        return $value ? Storage::url($value) : null;
+    }
     /*
     |--------------------------------------------------------------------------
     | MUTATORS

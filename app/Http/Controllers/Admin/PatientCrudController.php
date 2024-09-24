@@ -56,7 +56,10 @@ class PatientCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(PatientRequest::class);
+
         CRUD::setFromDb(); // set fields from db columns.
+
+
 
         /**
          * Fields can be defined using the fluent syntax:
@@ -72,6 +75,21 @@ class PatientCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
+
         $this->setupCreateOperation();
+    }
+
+    protected function setupShowOperation()
+    {
+        // MAYBE: do stuff before the autosetup
+
+        // automatically add the columns
+        $this->autoSetupShowOperation();
+
+        $this->crud->addField([
+            'name' => 'medical_consultation_tab',
+            'type' => 'hidden',
+            'tab' => 'Medical Consultation', // This creates the tab
+        ]);
     }
 }

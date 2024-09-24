@@ -1,0 +1,25 @@
+.before-after-container {
+    position: relative;
+    height: 540px;
+    width: 100%;
+}
+.before-after-container img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+/*.before-image, .after-image {*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*}*/
+
+/*.after-image {*/
+/*    opacity: 0;*/
+/*}*/
+
+/*.before-after-container:hover .after-image {*/
+/*    opacity: 1;*/
+/*}*/

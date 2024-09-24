@@ -36,11 +36,30 @@
       0 => 'Backpack\\Pro\\AddonServiceProvider',
     ),
   ),
+  'backpack/theme-coreuiv2' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Backpack\\ThemeCoreuiv2\\AddonServiceProvider',
+    ),
+  ),
   'backpack/theme-tabler' => 
   array (
     'providers' => 
     array (
       0 => 'Backpack\\ThemeTabler\\AddonServiceProvider',
+    ),
+  ),
+  'barryvdh/laravel-dompdf' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\DomPDF\\ServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Pdf' => 'Barryvdh\\DomPDF\\Facade\\Pdf',
+      'PDF' => 'Barryvdh\\DomPDF\\Facade\\Pdf',
     ),
   ),
   'creativeorange/gravatar' => 

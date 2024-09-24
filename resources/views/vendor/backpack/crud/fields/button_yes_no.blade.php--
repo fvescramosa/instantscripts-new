@@ -1,0 +1,16 @@
+{{-- resources/views/vendor/backpack/crud/fields/button_yes_no.blade.php --}}
+@php
+    $options = $field['options'] ?? [0 => 'No', 1 => 'Yes'];
+    $value = old($field['name'], $field['value'] ?? $field['default'] ?? 0);
+@endphp
+
+{{ $field['label'] }}               
+@foreach ($options as $key => $option)
+{{ $field['name'] }}" id="{{ $field['name'] }}_{{ $key }}" value="{{ $key }}
+@if($value == $key) checked @endif
+{{ $field['name'] }}_{{ $key }}">{{ $option }}
+@endforeach
+
+
+{{-- include any validation errors --}}
+@include('crud::fields.inc.wrapper_end')

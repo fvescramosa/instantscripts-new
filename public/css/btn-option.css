@@ -1,0 +1,27 @@
+
+.btn-options-container{
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 20px;
+
+    button, .btn-option{
+
+        width: 100%;
+        max-width: 100px;
+        border-radius: 35px !important;
+        background: #fff;
+        color: #000;
+        border:1px solid #95785e;
+
+        &.selected{
+            background: #95785e;
+            color: #fff;
+        }
+
+        &:hover{
+             background: #95785e;
+             color: #fff;
+         }
+    }
+}

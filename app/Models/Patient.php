@@ -46,6 +46,14 @@ class Patient extends Model
     public function treatment_details(){
         return $this->hasMany(TreatmentDetail::class);
     }
+
+    public function medicine_categories(){
+        return $this->hasMany(MedicineCategory::class);
+    }
+
+    public function medicare_card_details(){
+        return $this->hasMany(MedicareCardDetails::class);
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES

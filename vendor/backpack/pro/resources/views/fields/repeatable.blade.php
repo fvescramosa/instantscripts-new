@@ -115,13 +115,20 @@
         }
 
         .container-repeatable-elements .controls button {
-          height: 1.5rem;
-          width: 1.5rem;
-          border-radius: 50%;
-          margin-bottom: 2px;
-          overflow: hidden;
-          border-width: 0;
+            height: 1.5rem;
+            width: 1.5rem;
+            border-radius: 50%;
+            margin-bottom: 2px;
+            overflow: hidden;
+            border-width: 0;
+            opacity: 1;
+            background: revert;
+            -webkit-appearance: button;
+            font-size: revert;
+            color: revert;
+            padding: revert;
         }
+        
         .container-repeatable-elements .controls button.move-element-up,
         .container-repeatable-elements .controls button.move-element-down {
             margin: 2px auto;

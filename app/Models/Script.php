@@ -46,6 +46,12 @@ class Script extends Model
     public function treatment_detail(){
         return $this->hasOne(TreatmentDetail::class);
     }
+
+    public function medicine_category(){
+        return $this->belongsTo(MedicineCategory::class);
+    }
+
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES
