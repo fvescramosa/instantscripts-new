@@ -428,14 +428,14 @@ class ScriptCrudController extends CrudController
             'tab' => 'Treatment Details', // This creates the tab
         ]);
 
-        $treament_fields = [
+        /*$treament_fields = [
             ['name' => 'quantity', 'label' => 'Quantity'],
             ['name' => 'location', 'label' => 'Location'],
             ['name' => 'extra_notes', 'label' => 'Extra Notes'],
 //            ['name' => 'before_treatment_photos', 'label' => 'Treatment Photos (Before)'],
 //            ['name' => 'after_treatment_photos', 'label' => 'Treatment Photos (After)'],
             ['name' => 'consent_to_photographs', 'label' => 'Patient Consent to Photographs']
-        ];
+        ];*/
 
         $this->crud->addColumn([
             'name' => 'before_after_photos',
