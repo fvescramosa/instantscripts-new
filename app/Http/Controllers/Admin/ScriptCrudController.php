@@ -229,6 +229,7 @@ class ScriptCrudController extends CrudController
             'type' => 'text',
         ]);
 
+
         CRUD::addfield([
             'name' => 'treatment_detail[location]',
             'entity' => 'treatment_detail',
@@ -236,6 +237,7 @@ class ScriptCrudController extends CrudController
             'label' => 'Location',
             'type' => 'textarea',
         ]);
+
 
         CRUD::addfield([
             'name' => 'treatment_detail[extra_notes]',
