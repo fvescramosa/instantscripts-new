@@ -234,7 +234,7 @@ class ScriptCrudController extends CrudController
             'entity' => 'treatment_detail',
             'model' => 'App\Models\TreatmentDetail',
             'label' => 'Location',
-
+            'type' => 'textarea',
         ]);
 
         CRUD::addfield([
