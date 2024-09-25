@@ -101,7 +101,7 @@ class ScriptCrudController extends CrudController
             'treatment_detail.consent_to_photographs' => 'required',
             'treatment_detail.consent_to_treatment' => 'required',
             'treatment_detail.patient_signature' => 'required',
-            'treatment_detail.medicare_card_details_id' => 'required',
+//            'treatment_detail.medicare_card_details_id' => 'required',
             'medical_consultation.consultation_date' => 'required',
             'patient_id' => 'required',
 
