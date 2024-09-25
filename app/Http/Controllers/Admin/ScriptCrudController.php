@@ -535,7 +535,7 @@ class ScriptCrudController extends CrudController
                     'consent_to_photographs' => $treatmentDetails['consent_to_photographs'],
                     'consent_to_treatment' => $treatmentDetails['consent_to_treatment'],
                     'patient_signature' => $treatmentDetails['patient_signature'],
-                    'medicare_card_details_id' => $treatmentDetails['medicare_card_details_id'][0] ?? '',
+                    'medicare_card_details_id' => $treatmentDetails['medicare_card_details_id'][0] ?? 0,
                     'patient_id' => request('patient_id') // Add patient_id for foreign key
                 ]);
             }
