@@ -1,7 +1,7 @@
 // Ajax calls should always have the CSRF token attached to them, otherwise they won't work
 $.ajaxSetup({
     headers: {
-        // 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
     }
 });
 
