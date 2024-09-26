@@ -72,7 +72,7 @@
                 -ms-user-select: none;
                 user-select: none;
                 border: 1px dashed rgba(0,40,100,.12);
-                margin-bottom: 5px; 
+                margin-bottom: 5px;
                 margin-left: 15px;
             }
             .signature-pad {
@@ -91,7 +91,6 @@
         <script>
             function bpFieldInitSignatureElement(element) {
                 // element will be a jQuery wrapped DOM node
-                // Find DOM elements under this form-group element
                 var $signPadElement = element.find('[data-handle=signaturePad]');
                 var $mainImage = element.find('[data-handle=mainImage]');
                 var $hiddenImage = element.find("[data-handle=hiddenImage]");
@@ -105,7 +104,7 @@
                 });
 
                 // Hide 'Remove' button if there is no image saved
-                if (!$hiddenImage.val()){
+                if (!$hiddenImage.val()) {
                     $previews.hide();
                     $remove.hide();
                 } else {
@@ -115,29 +114,29 @@
                     $confirm.hide();
                 }
 
-
+                // Confirm signature
                 $confirm.click(function() {
                     var data = signaturePad.toDataURL('image/png');
                     if (!signaturePad.isEmpty()) {
                         $signPadElement.hide();
                         $previews.show();
-                        $mainImage.attr('src',data);
+                        $mainImage.attr('src', data);
                         $hiddenImage.val(data);
                         $remove.show();
                         $confirm.hide();
                     }
-
                 });
+
+                // Clear signature functionality
                 $remove.click(function() {
-                    signaturePad.clear();
-                    $mainImage.attr('src','');
-                    $hiddenImage.val('');
-                    $confirm.show();
-                    $remove.hide();
-                    $previews.hide();
-                    $signPadElement.show();
+                    signaturePad.clear(); // Clear the canvas
+                    $mainImage.attr('src', ''); // Remove the preview image
+                    $hiddenImage.val(''); // Clear the hidden input value
+                    $confirm.show(); // Show the "Done" button again
+                    $remove.hide(); // Hide the "Clear" button
+                    $previews.hide(); // Hide the preview area
+                    $signPadElement.show(); // Show the signature pad again
                 });
-
             }
         </script>
     @endpush

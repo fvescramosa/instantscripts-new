@@ -3,8 +3,8 @@
 
 <x-backpack::menu-item title="Scripts" icon="la la-question" :link="backpack_url('script')" />
 <x-backpack::menu-item title="Patients" icon="la la-question" :link="backpack_url('patient')" />
-<x-backpack::menu-item title="Medical consultations" icon="la la-question" :link="backpack_url('medical-consultation')" />
-<x-backpack::menu-item title="Treatment details" icon="la la-question" :link="backpack_url('treatment-detail')" />
+{{--<x-backpack::menu-item title="Medical consultations" icon="la la-question" :link="backpack_url('medical-consultation')" />--}}
+{{--<x-backpack::menu-item title="Treatment details" icon="la la-question" :link="backpack_url('treatment-detail')" />--}}
 <x-backpack::menu-item title="Medicine categories" icon="la la-question" :link="backpack_url('medicine-category')" />
 {{--<x-backpack::menu-item title="Medicare card details" icon="la la-question" :link="backpack_url('medicare-card-details')" />--}}
 {{--<x-backpack::menu-item title="Clinics" icon="la la-question" :link="backpack_url('clinics')" />--}}

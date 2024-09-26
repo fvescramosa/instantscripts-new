@@ -91,21 +91,39 @@ class ScriptCrudController extends CrudController
     {
         CRUD::setValidation(ScriptRequest::class);
 
-        $this->crud->setValidation([
-            'need_to_talk_to_doctor' => 'required',
+        $rules = [
+            'need_to_talk_to_doctor' => 'required', 'message' => 'This field is required',
             'treatment_detail.quantity' => 'required',
             'treatment_detail.location' => 'required',
-            'treatment_detail.extra_notes' => 'required',
-            'treatment_detail.before_treatment_photos' => 'required',
-            'treatment_detail.after_treatment_photos' => 'required',
+//            'treatment_detail.extra_notes' => 'required',
+//            'treatment_detail.before_treatment_photos' => 'required',
+//            'treatment_detail.after_treatment_photos' => 'required',
             'treatment_detail.consent_to_photographs' => 'required',
             'treatment_detail.consent_to_treatment' => 'required',
             'treatment_detail.patient_signature' => 'required',
 //            'treatment_detail.medicare_card_details_id' => 'required',
             'medical_consultation.consultation_date' => 'required',
             'patient_id' => 'required',
+        ];
 
-        ]);
+        $messages = [
+            'need_to_talk_to_doctor' => 'This Field is required',
+            'treatment_detail.quantity' => 'Quantity Field is required',
+            'treatment_detail.location' => 'Location Field is required',
+//            'treatment_detail.extra_notes' => 'required',
+//            'treatment_detail.before_treatment_photos' => 'required',
+//            'treatment_detail.after_treatment_photos' => 'required',
+            'treatment_detail.consent_to_photographs' => 'Patient Consent to Photographs Field is required',
+            'treatment_detail.consent_to_treatment' => 'Patient Consent to Treatment is required',
+            'treatment_detail.patient_signature' => 'Patient Signature required',
+//            'treatment_detail.medicare_card_details_id' => 'required',
+            'medical_consultation.consultation_date' => 'Consultation Date is required',
+            'patient_id' => 'Patient Details is required',
+        ];
+        $this->crud->setValidation(
+
+            $rules, $messages
+        );
         /*CRUD::addField([
             'type' => "relationship",
             'name' => 'patient_id', // the method on your model that defines the relationship
@@ -120,7 +138,7 @@ class ScriptCrudController extends CrudController
             'entity' => 'medical_consultation',
             'type' => 'radio',
             'options' => [1 => 'Yes', 0 => 'No'],
-            'value' => $entry->need_to_talk_to_doctor ?? 0,
+            'value' => old('need_to_talk_to_doctor') ?? $entry->need_to_talk_to_doctor ?? 0,
 //            'wrapper' => 'card'
         ]);
 
@@ -131,7 +149,8 @@ class ScriptCrudController extends CrudController
             'model' => 'App\Models\Patient',
             'attribute' => 'text',
             'ajax' => true,
-            'inline_create' => true
+            'inline_create' => true,
+            'value' => old('patient_id') ?? $entry->patient_id ?? nulL,
         ]);
 
         /*CRUD::addField([
@@ -150,6 +169,7 @@ class ScriptCrudController extends CrudController
             'label' => 'Select Medicine Category',
             'type' => 'category_tile', // The custom field type
             'options' => \App\Models\MedicineCategory::all(), // Fetch all options from the medicine_categories table
+            'value' => old('medicine_category_id') ?? $entry->medicine_category_id ?? 0,
         ]);
 
         $this->crud->addField([
@@ -165,7 +185,7 @@ class ScriptCrudController extends CrudController
             'name' => 'medical_consultation[consultation_date]', 'type' => 'date', 'label' => 'Consultation Date',
             'entity' => 'medical_consultation',
             'model' => 'App\Models\MedicalConsultation',
-            'value' => $entry->medical_consultation['consultation_date'] ?? date('m/d/y'),
+            'value' => old('medical_consultation.consultation_date') ?? $entry->medical_consultation['consultation_date'] ?? now()->format('m/d/Y'),
         ]);
 
 
@@ -218,7 +238,7 @@ class ScriptCrudController extends CrudController
         }
 
 
-        CRUD::addField([ 'name' => 'medical_consultation[notes]', 'type' => 'textarea', 'label' => 'Notes']);
+        CRUD::addField([ 'name' => 'medical_consultation[notes]', 'type' => 'ckeditor', 'label' => 'Notes']);
 
 
         CRUD::addfield([
@@ -239,15 +259,33 @@ class ScriptCrudController extends CrudController
         ]);
 
 
-        CRUD::addfield([
+       /* CRUD::addfield([
             'name' => 'treatment_detail[extra_notes]',
             'entity' => 'treatment_detail',
             'model' => 'App\Models\TreatmentDetail',
             'label' => 'Extra Notes',
-            'type' => 'textarea',
-        ]);
+            'type' => 'ckeditor',
+
+            'options'       => [
+                'autoGrow_minHeight'   => 500,
+                'autoGrow_bottomSpace' => 50,
+                'removePlugins'        => [],
+            ],
+        ]);*/
+
 
         CRUD::addfield([
+            'label'        => "Treatment Photos",
+            'name'         => "treatment_detail[treatment_photos]",
+            'entity' => 'treatment_detail',
+            'model' => 'App\Models\TreatmentDetail',
+            'filename'     => "image_filename", // set to null if not needed
+            'type'         => 'upload_multiple',
+            'aspect_ratio' => 1, // set to 0 to allow any aspect ratio
+            'crop'         => false, // set to true to allow cropping, false to disable
+            'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
+        ]);
+        /*CRUD::addfield([
             'label'        => "Treatment Photos (Before)",
             'name'         => "treatment_detail[before_treatment_photos]",
             'entity' => 'treatment_detail',
@@ -269,7 +307,7 @@ class ScriptCrudController extends CrudController
             'aspect_ratio' => 1, // set to 0 to allow any aspect ratio
             'crop'         => false, // set to true to allow cropping, false to disable
             'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
-        ]);
+        ]);*/
 
         CRUD::addfield([
             'name' => 'treatment_detail[consent_to_photographs]',
@@ -527,19 +565,21 @@ class ScriptCrudController extends CrudController
                 $treatmentDetails = request('treatment_detail');
 //                $script->treatment_detail()->create( array_merge( $treatmentDetails, ['patient_id' => request('patient_id')]));
 
-
-                $script->treatment_detail()->create([
+                $treatmentDetails['patient_id'] =  request('patient_id');
+                $script->treatment_detail()->create($treatmentDetails);
+                /*$script->treatment_detail()->create([
                     'quantity' => $treatmentDetails['quantity'],
                     'location' => $treatmentDetails['location'],
-                    'extra_notes' => $treatmentDetails['extra_notes'],
-                    'before_treatment_photos' => $treatmentDetails['before_treatment_photos'],
-                    'after_treatment_photos' => $treatmentDetails['after_treatment_photos'],
+//                    'extra_notes' => $treatmentDetails['extra_notes'],
+//                    'before_treatment_photos' => $treatmentDetails['before_treatment_photos'],
+//                    'after_treatment_photos' => $treatmentDetails['after_treatment_photos'],
+                    'treatment_photos' => $treatmentDetails['treatment_photos'],
                     'consent_to_photographs' => $treatmentDetails['consent_to_photographs'],
                     'consent_to_treatment' => $treatmentDetails['consent_to_treatment'],
                     'patient_signature' => $treatmentDetails['patient_signature'],
 //                    'medicare_card_details_id' => $treatmentDetails['medicare_card_details_id'][0] ?? 0,
                     'patient_id' => request('patient_id') // Add patient_id for foreign key
-                ]);
+                ]);*/
             }
 
             DB::commit();

@@ -75,6 +75,28 @@ class TreatmentDetail extends Model
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
+
+    public function setTreatmentPhotosAttribute($value)
+    {
+        if (is_string($value) && strpos($value, 'data:image/') === 0) {
+            // Process the base64 string to store the image
+            $imageName = 'treatment_photos_' . time() . '.' . explode('/', explode(':', substr($value, 0, strpos($value, ';')))[1])[1];
+            $imagePath = 'images/' . $imageName;
+
+            // Save the image
+            Storage::disk('public')->put($imagePath, base64_decode(substr($value, strpos($value, ',') + 1)));
+
+            $this->attributes['treatment_photos'] = $imagePath;
+        } else {
+            $this->attributes['treatment_photos'] = $value;
+        }
+    }
+
+    public function getTreatmentPhotosAttribute($value)
+    {
+        return $value ? Storage::url($value) : null;
+    }
+
     public function setBeforeTreatmentPhotosAttribute($value)
     {
         if (is_string($value) && strpos($value, 'data:image/') === 0) {
