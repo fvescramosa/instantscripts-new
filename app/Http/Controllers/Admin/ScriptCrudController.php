@@ -101,7 +101,7 @@ class ScriptCrudController extends CrudController
             'treatment_detail.consent_to_photographs' => 'required',
             'treatment_detail.consent_to_treatment' => 'required',
             'treatment_detail.patient_signature' => 'required',
-            'treatment_detail.medicare_card_details_id' => 'required',
+//            'treatment_detail.medicare_card_details_id' => 'required',
             'medical_consultation.consultation_date' => 'required',
             'patient_id' => 'required',
 
@@ -300,7 +300,7 @@ class ScriptCrudController extends CrudController
             'type' => 'signature',
         ]);
 
-        CRUD::addField([
+        /*CRUD::addField([
             'name' => 'treatment_detail[medicare_card_details_id]',
             'type' => 'relationship',
             'label' => 'Medicare Card Details',
@@ -318,7 +318,7 @@ class ScriptCrudController extends CrudController
             'data_source' => url('admin/fetch-medicare-card-details'), // Adding patient_id to the URL
             'placeholder' => 'Select a Medicare Card',
             'minimum_input_length' => 0,
-        ]);
+        ]);*/
 
 
         CRUD::setFromDb(); // set fields from db columns.
@@ -537,7 +537,7 @@ class ScriptCrudController extends CrudController
                     'consent_to_photographs' => $treatmentDetails['consent_to_photographs'],
                     'consent_to_treatment' => $treatmentDetails['consent_to_treatment'],
                     'patient_signature' => $treatmentDetails['patient_signature'],
-                    'medicare_card_details_id' => $treatmentDetails['medicare_card_details_id'][0],
+//                    'medicare_card_details_id' => $treatmentDetails['medicare_card_details_id'][0] ?? 0,
                     'patient_id' => request('patient_id') // Add patient_id for foreign key
                 ]);
             }
