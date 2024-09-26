@@ -6,7 +6,7 @@
 <x-backpack::menu-item title="Medical consultations" icon="la la-question" :link="backpack_url('medical-consultation')" />
 <x-backpack::menu-item title="Treatment details" icon="la la-question" :link="backpack_url('treatment-detail')" />
 <x-backpack::menu-item title="Medicine categories" icon="la la-question" :link="backpack_url('medicine-category')" />
-<x-backpack::menu-item title="Medicare card details" icon="la la-question" :link="backpack_url('medicare-card-details')" />
-<x-backpack::menu-item title="Clinics" icon="la la-question" :link="backpack_url('clinics')" />
-<x-backpack::menu-item title="Clinics" icon="la la-question" :link="backpack_url('clinic')" />
+{{--<x-backpack::menu-item title="Medicare card details" icon="la la-question" :link="backpack_url('medicare-card-details')" />--}}
+{{--<x-backpack::menu-item title="Clinics" icon="la la-question" :link="backpack_url('clinics')" />--}}
+{{--<x-backpack::menu-item title="Clinics" icon="la la-question" :link="backpack_url('clinic')" />--}}
 <x-backpack::menu-item title="Nurses" icon="la la-question" :link="backpack_url('nurse')" />
