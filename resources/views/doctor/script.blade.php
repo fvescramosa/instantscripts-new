@@ -50,11 +50,43 @@
                                     <!-- Patient Data -->
                                     <div class="col-md-12">
 
-                                            <p><strong>Quantity:</strong> {{ $script->treatment_detail()->quantity }}</p>
-                                            <p><strong>Location:</strong> {{ implode(', ', $script->treatment_detail()->location) }}</p>
-                                            <p><strong>Location:</strong> {{ implode(', ', $script->treatment_detail()->location) }}</p>
+                                            <p><strong>Quantity:</strong> {{ $script->treatment_detail->quantity }}</p>
+                                            <p><strong>Location:</strong> {{ $script->treatment_detail->location }}</p>
+                                            <p><strong>Extra Notes:</strong> {{  $script->treatment_detail->notes }}</p>
+                                            <p><strong>Patient Consent to Photographs:</strong> {{ $script->treatment_detail->consent_to_photographs  }}</p>
+                                            <p><strong>Patient Consent to Treatment:</strong> {{ $script->treatment_detail->consent_to_treatment  }}</p>
 
                                     </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h6>Treatment Photos</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <!-- Patient Photo -->
+
+                                    <!-- Patient Data -->
+                                    <div class="col-md-4">
+                                      {{ $script->treatment_detail->left_treatment_photos }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <img src="{{ $script->treatment_detail->right_treatment_photos }}" alt="">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <img src="{{ $script->treatment_detail->top_treatment_photos }}" alt="">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <img src="{{ $script->treatment_detail->bottom_treatment_photos }}" alt="">
+                                    </div>
+
                                 </div>
 
                             </div>

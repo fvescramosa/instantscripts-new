@@ -188,18 +188,18 @@ class TreatmentDetail extends Model
     }
 
 
-
-    // Accessor: Convert the stored comma-separated string into an array
-    public function getLocationAttribute($value)
-    {
-        return explode(', ', $value);
-    }
-
     // Mutator: Convert the array back into a comma-separated string before saving
     public function setLocationAttribute($value)
     {
         $this->attributes['location'] = is_array($value) ? implode(', ', $value) : $value;
     }
+
+    // Accessor: Convert the stored comma-separated string into an array
+    public function getLocationAttribute($value)
+    {
+        return $value;
+    }
+
 
 
 
