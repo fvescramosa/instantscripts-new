@@ -250,12 +250,27 @@ class ScriptCrudController extends CrudController
         ]);
 
 
-        CRUD::addfield([
+        /*CRUD::addfield([
             'name' => 'treatment_detail[location]',
             'entity' => 'treatment_detail',
             'model' => 'App\Models\TreatmentDetail',
             'label' => 'Location',
             'type' => 'textarea',
+        ]);*/
+
+        CRUD::addField([
+            'name' => 'treatment_detail[location]',
+            'label' => 'Select Location',
+            'type' => 'custom_select',
+            'options' => [ // your select options
+                'Lips' => 'Lips',
+                'Nose' => 'Nose',
+                'Ears' => 'Ears',
+            ],
+            'attribute' => 'name',
+            'allows_null' => false,
+            'pivot' => false, // not a pivot field (no relationship)
+            'value' => explode(', ', $entry->treatment_detail['location'] ?? ''), // convert the string back to an array for editing
         ]);
 
 
@@ -275,15 +290,63 @@ class ScriptCrudController extends CrudController
 
 
         CRUD::addfield([
-            'label'        => "Treatment Photos",
-            'name'         => "treatment_detail[treatment_photos]",
+            'label'        => "Left",
+            'name'         => "treatment_detail[left_treatment_photos]",
             'entity' => 'treatment_detail',
             'model' => 'App\Models\TreatmentDetail',
             'filename'     => "image_filename", // set to null if not needed
-            'type'         => 'upload_multiple',
+            'type'         => 'base64_image',
             'aspect_ratio' => 1, // set to 0 to allow any aspect ratio
             'crop'         => false, // set to true to allow cropping, false to disable
             'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
+            'attribute' => [
+                'class' => 'col-sm-4'
+            ]
+        ]);
+
+        CRUD::addfield([
+            'label'        => "Right",
+            'name'         => "treatment_detail[right_treatment_photos]",
+            'entity' => 'treatment_detail',
+            'model' => 'App\Models\TreatmentDetail',
+            'filename'     => "image_filename", // set to null if not needed
+            'type'         => 'base64_image',
+            'aspect_ratio' => 1, // set to 0 to allow any aspect ratio
+            'crop'         => false, // set to true to allow cropping, false to disable
+            'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
+            'attribute' => [
+                'class' => 'col-sm-4'
+            ]
+        ]);
+
+        CRUD::addfield([
+            'label'        => "Top",
+            'name'         => "treatment_detail[top_treatment_photos]",
+            'entity' => 'treatment_detail',
+            'model' => 'App\Models\TreatmentDetail',
+            'filename'     => "image_filename", // set to null if not needed
+            'type'         => 'base64_image',
+            'aspect_ratio' => 1, // set to 0 to allow any aspect ratio
+            'crop'         => false, // set to true to allow cropping, false to disable
+            'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
+            'attribute' => [
+                'class' => 'col-sm-4'
+            ]
+        ]);
+
+        CRUD::addfield([
+            'label'        => "Bottom",
+            'name'         => "treatment_detail[bottom_treatment_photos]",
+            'entity' => 'treatment_detail',
+            'model' => 'App\Models\TreatmentDetail',
+            'filename'     => "image_filename", // set to null if not needed
+            'type'         => 'base64_image',
+            'aspect_ratio' => 1, // set to 0 to allow any aspect ratio
+            'crop'         => false, // set to true to allow cropping, false to disable
+            'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
+            'attribute' => [
+                'class' => 'col-sm-4'
+            ]
         ]);
         /*CRUD::addfield([
             'label'        => "Treatment Photos (Before)",
@@ -563,23 +626,23 @@ class ScriptCrudController extends CrudController
 
             if (request()->has('treatment_detail')) {
                 $treatmentDetails = request('treatment_detail');
-//                $script->treatment_detail()->create( array_merge( $treatmentDetails, ['patient_id' => request('patient_id')]));
 
-                $treatmentDetails['patient_id'] =  request('patient_id');
-                $script->treatment_detail()->create($treatmentDetails);
-                /*$script->treatment_detail()->create([
+                $script->treatment_detail()->create([
                     'quantity' => $treatmentDetails['quantity'],
                     'location' => $treatmentDetails['location'],
 //                    'extra_notes' => $treatmentDetails['extra_notes'],
 //                    'before_treatment_photos' => $treatmentDetails['before_treatment_photos'],
 //                    'after_treatment_photos' => $treatmentDetails['after_treatment_photos'],
-                    'treatment_photos' => $treatmentDetails['treatment_photos'],
+                    'left_treatment_photos' => $treatmentDetails['left_treatment_photos'],
+                    'right_treatment_photos' => $treatmentDetails['right_treatment_photos'],
+                    'top_treatment_photos' => $treatmentDetails['top_treatment_photos'],
+                    'bottom_treatment_photos' => $treatmentDetails['bottom_treatment_photos'],
                     'consent_to_photographs' => $treatmentDetails['consent_to_photographs'],
                     'consent_to_treatment' => $treatmentDetails['consent_to_treatment'],
                     'patient_signature' => $treatmentDetails['patient_signature'],
 //                    'medicare_card_details_id' => $treatmentDetails['medicare_card_details_id'][0] ?? 0,
                     'patient_id' => request('patient_id') // Add patient_id for foreign key
-                ]);*/
+                ]);
             }
 
             DB::commit();
