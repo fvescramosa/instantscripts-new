@@ -35,7 +35,7 @@
                                                              <td>{{ $script->patient->full_name }}</td>
                                                              <td>{{ $script->medicine_category()->category ?? '' }}</td>
                                                              <td>{{ $script->treatment_detail->quantity ?? '' }}</td>
-                                                             <td>{{ implode(', ', $script->treatment_detail->location ?? []) }}</td>
+                                                             <td>{{  $script->treatment_detail->location  }}</td>
                                                              <td>{{ ($script->approved ? 'Yes' : 'No')}}</td>
 
                                                              <td><a href="{{ route('doctor-approval.view',['id' => $script->id ]) }}">View</a></td>

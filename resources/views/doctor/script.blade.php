@@ -53,8 +53,8 @@
                                             <p><strong>Quantity:</strong> {{ $script->treatment_detail->quantity }}</p>
                                             <p><strong>Location:</strong> {{ $script->treatment_detail->location }}</p>
                                             <p><strong>Extra Notes:</strong> {{  $script->treatment_detail->notes }}</p>
-                                            <p><strong>Patient Consent to Photographs:</strong> {{ $script->treatment_detail->consent_to_photographs  }}</p>
-                                            <p><strong>Patient Consent to Treatment:</strong> {{ $script->treatment_detail->consent_to_treatment  }}</p>
+                                            <p><strong>Patient Consent to Photographs:</strong> {{ ( $script->treatment_detail->consent_to_photographs ? 'Yes' : 'No')  }}</p>
+                                            <p><strong>Patient Consent to Treatment:</strong> {{ ( $script->treatment_detail->consent_to_treatment ? 'Yes' : 'No')  }}</p>
 
                                     </div>
                                 </div>
