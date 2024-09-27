@@ -63,7 +63,7 @@
                         </div>
                     </div>
                     <div class="container mt-5">
-                        <div class="card">
+                        <div class="card treatment-photos">
                             <div class="card-header bg-primary text-white">
                                 <h6>Treatment Photos</h6>
                             </div>
@@ -73,7 +73,7 @@
 
                                     <!-- Patient Data -->
                                     <div class="col-md-4">
-                                      {{ $script->treatment_detail->left_treatment_photos }}
+                                        <img src="{{ $script->treatment_detail->left_treatment_photos }}" alt="">
                                     </div>
                                     <div class="col-md-4">
                                         <img src="{{ $script->treatment_detail->right_treatment_photos }}" alt="">
