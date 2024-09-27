@@ -121,10 +121,13 @@
                     </div>
                     <div class="container mt-5">
                             @if($script->approved == 1)
-                                <a class="btn btn-outline-danger  "><span class="la la-file-pdf"></span> Generate Script</a>
+                                <a class="btn btn-outline-danger  " href="{{ route('generate.pdf', ['id' => $script->id] ) }}"><span class="la la-file-pdf"></span> Generate Script</a>
+
+                            @else
+                                <a class="btn btn-success text-white" href="{{ route('script.approval', ['id' => $script->id]) }}"><span class="la la-check"></span> Approved</a>
+                                <a class="btn btn-danger text-white" href="{{ route('script.reject', ['id' => $script->id]) }}"><span class="la la-times"></span> Reject</a>
                             @endif
-                            <a class="btn btn-success text-white"><span class="la la-check"></span> Approved</a>
-                            <a class="btn btn-danger text-white"><span class="la la-times"></span> Reject</a>
+
                     </div>
                 </div>
             </div>
