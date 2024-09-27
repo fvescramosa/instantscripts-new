@@ -88,7 +88,7 @@
 <?php endif; ?>
 <?php if (isset($component)) { $__componentOriginalead85e76a923e64d9eae23947232cf9a = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalead85e76a923e64d9eae23947232cf9a = $attributes; } ?>
-<?php $component = Backpack\CRUD\app\View\Components\MenuItem::resolve(['title' => 'Doctor Approval','icon' => 'la la-patient','link' => backpack_url('nurse')] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Backpack\CRUD\app\View\Components\MenuItem::resolve(['title' => 'Doctor Approval','icon' => 'la la-patient','link' => route('doctor-approval')] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('backpack::menu-item'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>

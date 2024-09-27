@@ -10,4 +10,4 @@
 {{--<x-backpack::menu-item title="Clinics" icon="la la-question" :link="backpack_url('clinics')" />--}}
 {{--<x-backpack::menu-item title="Clinics" icon="la la-question" :link="backpack_url('clinic')" />--}}
 <x-backpack::menu-item title="Nurses" icon="la la-question" :link="backpack_url('nurse')" />
-<x-backpack::menu-item title="Doctor Approval" icon="la la-patient" :link="backpack_url('nurse')" />
+<x-backpack::menu-item title="Doctor Approval" icon="la la-patient" :link="route('doctor-approval')" />

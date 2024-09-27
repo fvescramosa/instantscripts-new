@@ -21,7 +21,7 @@ class Script extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-     protected $fillable = ['patient_id'];
+     protected $fillable = ['patient_id', 'medicine_category_id', 'approved'];
     // protected $hidden = [];
 
     /*

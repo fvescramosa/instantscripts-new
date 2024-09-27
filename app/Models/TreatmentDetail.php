@@ -187,6 +187,8 @@ class TreatmentDetail extends Model
         return $value ? Storage::url($value) : null;
     }
 
+
+
     // Accessor: Convert the stored comma-separated string into an array
     public function getLocationAttribute($value)
     {
