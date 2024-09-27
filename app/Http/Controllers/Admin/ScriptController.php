@@ -23,4 +23,19 @@ class ScriptController extends Controller
         return $pdf->download('script_' . $script->id . '_'. $script->patient->last_name .'_'. $script->patient->first_name .'_'. date('m_d_Y_his').'.pdf');
 //        return view('pdf.script', compact(['script']));
     }
+
+    public function approval($id){
+       $script = Script::find($id);
+       $script->update('approved', 1);
+       $script->save();
+
+
+    }
+
+    public function reject($id){
+        $script = Script::find($id);
+        $script->save();
+
+
+    }
 }

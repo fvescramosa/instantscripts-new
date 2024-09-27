@@ -21,6 +21,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('medicare-card-details/fetch/patient', [\App\Http\Controllers\Admin\MedicareCardDetailsCrudController::class, 'fetchPatient'])->name('admin.medicare-card-details.fetch.patient');
     Route::post('fetch-medicare-card-details', [\App\Http\Controllers\Admin\ScriptCrudController::class, 'fetchMedicareCardDetails']);
     Route::get('script/{id}/generate-pdf', [\App\Http\Controllers\Admin\ScriptController::class, 'generatePDF']);
+    Route::get('script/approval/approve/{id}', [\App\Http\Controllers\Admin\ScriptController::class, 'approval'])->name('script.approval');
+    Route::get('script/approval/reject/{id}', [\App\Http\Controllers\Admin\ScriptController::class, 'reject'])->name('script.reject');
 });
 
 

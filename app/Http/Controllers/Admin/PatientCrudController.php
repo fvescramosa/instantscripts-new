@@ -128,11 +128,7 @@ class PatientCrudController extends CrudController
                         'label' => $treatment_field['label'],
                         'value' => function ($entry) use ($treatment_field, $treatment_detail) {
                             $q = $treatment_field['name'];
-
-                            if($q == 'location'){
-                                return implode(', ', $treatment_detail->$q);
-                            }
-                            return $treatment_detail->$q;
+                            return $treatment_detail->$q ?? '';
                         },
                     ]);
                 }
@@ -144,11 +140,7 @@ class PatientCrudController extends CrudController
                     'label' => $treatment_field['label'],
                     'value' => function ($entry) use ($treatment_field, $treatment_detail) {
                         $q = $treatment_field['name'];
-
-                        if($q == 'location'){
-                            return implode(', ', $treatment_detail->$q);
-                        }
-                        return $treatment_detail->$q;
+                        return $treatment_detail->$q ?? '';
                     },
                 ]);
 
