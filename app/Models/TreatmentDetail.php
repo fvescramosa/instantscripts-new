@@ -60,7 +60,7 @@ class TreatmentDetail extends Model
         return $this->belongsTo(Patient::class);
     }
 
-    public function scripts(){
+    public function script(){
         return $this->belongsTo(Script::class);
     }
     public function medicare_card_detail(){

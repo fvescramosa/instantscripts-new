@@ -21,6 +21,7 @@ class DoctorApprovalController extends Controller
     public function show($id)
     {
         $script = Script::with('patient', 'medical_consultation', 'treatment_detail')->find($id);
+
         $medical_consultation_fields = [
 
             ['name' => 'serious_health_problems', 'label' => 'Do you have any serious health problems, including any blood borne diseases or blood disorders?'],
