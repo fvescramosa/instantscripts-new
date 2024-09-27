@@ -38,7 +38,7 @@
                                                              <td>{{ implode(', ', $script->treatment_detail->location) }}</td>
                                                              <td>{{ ($script->approved ? 'Yes' : 'No')}}</td>
 
-                                                             <td>{{ 'View' }}</td>
+                                                             <td><a href="{{ route('doctor-approval.view',['id' => $script->id ]) }}">View</a></td>
                                                          </tr>
                                                         @endforeach
                                                 @endif

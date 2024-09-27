@@ -27,4 +27,5 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'admin'], function () {
     Route::post('script/fetch/medicine-category', [\App\Http\Controllers\Admin\ScriptCrudController::class, 'fetchCategory'])->name('admin.script.fetch.medicine-category');
     Route::get('/doctor-approval/', [\App\Http\Controllers\DoctorApprovalController::class, 'index'])->name('doctor-approval');
+    Route::get('/doctor-approval/view/{id}', [\App\Http\Controllers\DoctorApprovalController::class, 'show'])->name('doctor-approval.view');
 });
