@@ -93,7 +93,7 @@ class ScriptCrudController extends CrudController
 
         $rules = [
             'need_to_talk_to_doctor' => 'required',
-            'treatment_detail.quantity' => 'required|number',
+            'treatment_detail.quantity' => 'required',
             'treatment_detail.location' => 'required',
 //            'treatment_detail.extra_notes' => 'required',
 //            'treatment_detail.before_treatment_photos' => 'required',
