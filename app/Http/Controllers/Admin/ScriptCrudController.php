@@ -92,8 +92,8 @@ class ScriptCrudController extends CrudController
         CRUD::setValidation(ScriptRequest::class);
 
         $rules = [
-            'need_to_talk_to_doctor' => 'required', 'message' => 'This field is required',
-            'treatment_detail.quantity' => 'required',
+            'need_to_talk_to_doctor' => 'required',
+            'treatment_detail.quantity' => 'required|number',
             'treatment_detail.location' => 'required',
 //            'treatment_detail.extra_notes' => 'required',
 //            'treatment_detail.before_treatment_photos' => 'required',
