@@ -21,7 +21,7 @@ class AreaCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -33,7 +33,7 @@ class AreaCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -49,13 +49,24 @@ class AreaCrudController extends CrudController
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
     protected function setupCreateOperation()
     {
         CRUD::setValidation(AreaRequest::class);
+
+        CRUD::addField([
+            'name' => 'product_id',
+            'type' => 'relationship',
+            'entity' => 'product',
+            'model' => 'App\Models\Product',
+            'attribute' => 'text',
+            'ajax' => true,
+            'value' => old('product_id') ?? $entry->product_id ?? nulL,
+        ]);
+
         CRUD::setFromDb(); // set fields from db columns.
 
         /**
@@ -66,7 +77,7 @@ class AreaCrudController extends CrudController
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
