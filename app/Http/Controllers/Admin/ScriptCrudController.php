@@ -266,11 +266,12 @@ class ScriptCrudController extends CrudController
             'name' => 'treatment_detail[location]',
             'label' => 'Select Location',
             'type' => 'custom_select',
-            'options' => [ // your select options
+            /*'options' => [ // your select options
                 'Lips' => 'Lips',
                 'Nose' => 'Nose',
                 'Ears' => 'Ears',
-            ],
+            ],*/
+            'options' => \App\Models\Locations::pluck('location', 'location')->toArray(),
             'attribute' => 'name',
             'allows_null' => false,
             'pivot' => false, // not a pivot field (no relationship)
