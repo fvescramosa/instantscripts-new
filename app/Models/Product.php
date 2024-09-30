@@ -6,7 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Nurse extends Model
+class Product extends Model
 {
     use CrudTrait;
     use HasFactory;
@@ -17,10 +17,10 @@ class Nurse extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'nurses';
+    protected $table = 'products';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
-    protected $guarded = ['id', 'name, '];
+    protected $guarded = ['id', 'product'];
     // protected $fillable = [];
     // protected $hidden = [];
 
@@ -36,6 +36,9 @@ class Nurse extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function areas(){
+        return $this->hasMany(Area::class);
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES
