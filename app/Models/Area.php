@@ -21,7 +21,7 @@ class Area extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-     protected $fillable = ['id', 'product_id'];
+     protected $fillable = ['id', 'product_id', 'area'];
     // protected $hidden = [];
 
     /*

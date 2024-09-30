@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('nurses', function (Blueprint $table) {
             //
+            $table->string('aphpra_registration_number')->nullable();
+            $table->string('certificate')->nullable();
         });
     }
 
@@ -23,8 +25,7 @@ return new class extends Migration
     {
         Schema::table('nurses', function (Blueprint $table) {
             //
-            $table->string('aphpra_registration_number')->nullable();
-            $table->string('certificate')->nullable();
+
 
         });
     }

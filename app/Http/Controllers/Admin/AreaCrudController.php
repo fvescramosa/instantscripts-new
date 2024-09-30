@@ -57,6 +57,21 @@ class AreaCrudController extends CrudController
     {
         CRUD::setValidation(AreaRequest::class);
 
+        $rules = [
+            'product_id' => 'required',
+            'area' => 'required',
+        ];
+
+        $messages = [
+            'product_id' => 'Product is required',
+            'area' => 'Area is required',
+        ];
+        $this->crud->setValidation(
+
+            $rules, $messages
+        );
+
+
         CRUD::addField([
             'name' => 'product_id',
             'type' => 'relationship',
@@ -65,6 +80,12 @@ class AreaCrudController extends CrudController
             'attribute' => 'text',
             'ajax' => true,
             'value' => old('product_id') ?? $entry->product_id ?? nulL,
+        ]);
+
+        CRUD::addField([
+            'name' => 'area',
+            'type' => 'text',
+            'value' => old('area') ?? $entry->area ?? nulL,
         ]);
 
         CRUD::setFromDb(); // set fields from db columns.
@@ -84,5 +105,30 @@ class AreaCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function fetchProduct()
+    {
+        $query = \App\Models\Product::query();
+
+
+        if (request()->has('q')) {
+            $search = request()->input('q');
+            $query->where(function ($query) use ($search) {
+                $query->where('product', 'LIKE', "%$search%");
+            });
+        }
+
+        $products = $query->get();
+
+
+        $results = $products->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'text' => $product->product
+            ];
+        });
+
+        return response()->json($results);
     }
 }
