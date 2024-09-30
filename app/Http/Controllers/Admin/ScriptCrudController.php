@@ -75,7 +75,11 @@ class ScriptCrudController extends CrudController
             'label' => 'Export',
             'type' => 'custom_html',
             'value' => function($entry) {
-                return '<a href="'.url('admin/script/'.$entry->getKey().'/generate-pdf').'" class="btn btn-sm btn-primary" target="_blank">Download PDF</a>';
+                // Check if the 'approved' column is 1
+                if ($entry->approved == 1) {
+                    return '<a href="'.url('admin/script/'.$entry->getKey().'/generate-pdf').'" class="btn btn-sm btn-primary" target="_blank">Download PDF</a>';
+                }
+                return ''; // Return an empty string if 'approved' is not 1
             },
         ]);
     }
