@@ -13,6 +13,8 @@
 <x-backpack::menu-item title="Doctor Approval" icon="la la-patient" :link="route('doctor-approval')" />
 
 <x-backpack::menu-item title="Locations" icon="la la-question" :link="backpack_url('locations')" />
-<x-backpack::menu-item title="Products" icon="la la-question" :link="backpack_url('product')" >
+
+
+<x-backpack::menu-dropdown title="Products" icon="la la-question" :link="backpack_url('product')" >
     <x-backpack::menu-item title="Areas" icon="la la-question" :link="backpack_url('area')" />
-</x-backpack::menu-item>
+</x-backpack::menu-dropdown>
