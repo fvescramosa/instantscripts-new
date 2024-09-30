@@ -70,14 +70,14 @@ class ScriptCrudController extends CrudController
          * - CRUD::column('price')->type('number');
          */
 
-       /* $this->crud->addColumn([
+        $this->crud->addColumn([
             'name' => 'generate_pdf',
             'label' => 'Export',
             'type' => 'custom_html',
             'value' => function($entry) {
-                return '<a href="'.url('admin/script/'.$entry->getKey().'/generate-pdf').'" class="btn btn-sm btn-primary" target="_blank">Generate PDF</a>';
+                return '<a href="'.url('admin/script/'.$entry->getKey().'/generate-pdf').'" class="btn btn-sm btn-primary" target="_blank">Download PDF</a>';
             },
-        ]);*/
+        ]);
     }
 
 
