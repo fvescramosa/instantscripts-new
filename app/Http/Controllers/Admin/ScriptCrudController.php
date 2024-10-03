@@ -177,7 +177,7 @@ class ScriptCrudController extends CrudController
         ]);*/
 
 
-        $this->crud->addField([
+        /*$this->crud->addField([
             'name' => 'script_products',
             'label' => 'Products',
             'type' => 'relationship',
@@ -197,7 +197,7 @@ class ScriptCrudController extends CrudController
 
             ],
 
-        ]);
+        ]);*/
 
         $this->crud->addField([
             'name' => 'video_call_test', // Name of the field (not stored in the database)
