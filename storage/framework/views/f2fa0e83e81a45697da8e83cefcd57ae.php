@@ -60,6 +60,8 @@
               data-has-details-row="<?php echo e((int) $crud->getOperationSetting('detailsRow')); ?>"
               data-has-bulk-actions="<?php echo e((int) $crud->getOperationSetting('bulkActions')); ?>"
               data-has-line-buttons-as-dropdown="<?php echo e((int) $crud->getOperationSetting('lineButtonsAsDropdown')); ?>"
+              data-line-buttons-as-dropdown-minimum="<?php echo e((int) $crud->getOperationSetting('lineButtonsAsDropdownMinimum')); ?>"
+              data-line-buttons-as-dropdown-show-before-dropdown="<?php echo e((int) $crud->getOperationSetting('lineButtonsAsDropdownShowBefore')); ?>"
               cellspacing="0">
             <thead>
               <tr>

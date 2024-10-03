@@ -51,6 +51,10 @@ class Script extends Model
         return $this->belongsTo(MedicineCategory::class);
     }
 
+    public function script_products(){
+        return $this->hasMany(ScriptProduct::class);
+    }
+
     public function getAgeAtConsultationAttribute()
     {
         // Ensure the necessary relations and fields are available

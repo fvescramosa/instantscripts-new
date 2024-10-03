@@ -168,12 +168,35 @@ class ScriptCrudController extends CrudController
         ]);*/
 
 
-        CRUD::addField([
+       /* CRUD::addField([
             'name' => 'medicine_category_id',
             'label' => 'Select Medicine Category',
             'type' => 'category_tile', // The custom field type
             'options' => \App\Models\MedicineCategory::all(), // Fetch all options from the medicine_categories table
             'value' => old('medicine_category_id') ?? $entry->medicine_category_id ?? 0,
+        ]);*/
+
+
+        $this->crud->addField([
+            'name' => 'script_products',
+            'label' => 'Products',
+            'type' => 'relationship',
+            'entity' => 'script_products',
+//            'wrapper' => ['class' => 'card col-md-4'],
+            'subfields' => [
+                [
+                    'name' => 'script_products.product_id',
+                    'label' => 'Products',
+                    'type' => 'relationship',
+                    'entity' => 'product',
+                    'model' => 'App\Models\Product',
+                    'attribute' => 'text',
+                    'ajax' => true,
+                    'value' => old('product_id') ?? $entry->product_id ?? nulL,
+                ],
+
+            ],
+
         ]);
 
         $this->crud->addField([
@@ -252,6 +275,7 @@ class ScriptCrudController extends CrudController
             'label' => 'Quantity',
             'type' => 'text',
         ]);
+
 
 
         /*CRUD::addfield([
@@ -749,6 +773,31 @@ class ScriptCrudController extends CrudController
         }
         return response()->json($results ?? '');
 
+    }
+
+    public function fetchProduct()
+    {
+        $query = \App\Models\Product::query();
+
+
+        if (request()->has('q')) {
+            $search = request()->input('q');
+            $query->where(function ($query) use ($search) {
+                $query->where('product', 'LIKE', "%$search%");
+            });
+        }
+
+        $products = $query->get();
+
+
+        $results = $products->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'text' => $product->product
+            ];
+        });
+
+        return response()->json($results);
     }
 
 }

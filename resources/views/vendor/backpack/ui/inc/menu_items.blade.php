@@ -16,5 +16,9 @@
 
 
 <x-backpack::menu-dropdown title="Products" icon="la la-question" :link="backpack_url('product')" >
+    <x-backpack::menu-item title="Products" icon="la la-product" :link="backpack_url('product')" />
     <x-backpack::menu-item title="Areas" icon="la la-question" :link="backpack_url('area')" />
 </x-backpack::menu-dropdown>
+
+{{--<x-backpack::menu-item title="Script products" icon="la la-question" :link="backpack_url('script-product')" />--}}
+{{--<x-backpack::menu-item title="Script product areas" icon="la la-question" :link="backpack_url('script-product-area')" />--}}
