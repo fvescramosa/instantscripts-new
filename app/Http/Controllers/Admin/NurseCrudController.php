@@ -21,7 +21,7 @@ class NurseCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -33,7 +33,7 @@ class NurseCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -49,13 +49,41 @@ class NurseCrudController extends CrudController
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
     protected function setupCreateOperation()
     {
         CRUD::setValidation(NurseRequest::class);
+
+        CRUD::addField([
+            'name' => 'name',
+            'type' => 'text',
+            'value' => old('area') ?? $entry->area ?? nulL,
+        ]);
+
+        CRUD::addField([
+            'name' => 'aphpra_registration_number',
+            'label' => 'APRA Registration number',
+            'type' => 'text',
+            'value' => old('aphpra_registration_number') ?? $entry->aphpra_registration_number ?? nulL,
+        ]);
+
+        CRUD::addfield([
+            'label'        => "Certificate",
+            'name'         => "certificate",
+            'filename'     => "image_filename", // set to null if not needed
+            'type'         => 'base64_image',
+            'aspect_ratio' => 1, // set to 0 to allow any aspect ratio
+            'crop'         => false, // set to true to allow cropping, false to disable
+            'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
+            'attribute' => [
+                'class' => 'col-sm-4'
+            ]
+        ]);
+
+
         CRUD::setFromDb(); // set fields from db columns.
 
         /**
@@ -66,7 +94,7 @@ class NurseCrudController extends CrudController
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */

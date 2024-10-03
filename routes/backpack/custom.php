@@ -25,6 +25,11 @@ Route::group([
     Route::crud('clinics', 'ClinicsCrudController');
     Route::crud('clinic', 'ClinicCrudController');
     Route::crud('nurse', 'NurseCrudController');
+    Route::crud('locations', 'LocationsCrudController');
+    Route::crud('product', 'ProductCrudController');
+    Route::crud('area', 'AreaCrudController');
+    Route::crud('script-product', 'ScriptProductCrudController');
+    Route::crud('script-product-area', 'ScriptProductAreaCrudController');
 }); // this should be the absolute last line of this file
 
 /**

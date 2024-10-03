@@ -22,6 +22,13 @@
       'Widget' => 'Backpack\\CRUD\\app\\Library\\Widget',
     ),
   ),
+  'backpack/editable-columns' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Backpack\\EditableColumns\\AddonServiceProvider',
+    ),
+  ),
   'backpack/generators' => 
   array (
     'providers' => 

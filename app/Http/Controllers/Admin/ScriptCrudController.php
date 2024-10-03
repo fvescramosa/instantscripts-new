@@ -75,7 +75,11 @@ class ScriptCrudController extends CrudController
             'label' => 'Export',
             'type' => 'custom_html',
             'value' => function($entry) {
-                return '<a href="'.url('admin/script/'.$entry->getKey().'/generate-pdf').'" class="btn btn-sm btn-primary" target="_blank">Generate PDF</a>';
+                // Check if the 'approved' column is 1
+                if ($entry->approved == 1) {
+                    return '<a href="'.url('admin/script/'.$entry->getKey().'/generate-pdf').'" class="btn btn-sm btn-primary" target="_blank">Download PDF</a>';
+                }
+                return ''; // Return an empty string if 'approved' is not 1
             },
         ]);
     }
@@ -91,21 +95,39 @@ class ScriptCrudController extends CrudController
     {
         CRUD::setValidation(ScriptRequest::class);
 
-        $this->crud->setValidation([
+        $rules = [
             'need_to_talk_to_doctor' => 'required',
             'treatment_detail.quantity' => 'required',
             'treatment_detail.location' => 'required',
-            'treatment_detail.extra_notes' => 'required',
-            'treatment_detail.before_treatment_photos' => 'required',
-            'treatment_detail.after_treatment_photos' => 'required',
+//            'treatment_detail.extra_notes' => 'required',
+//            'treatment_detail.before_treatment_photos' => 'required',
+//            'treatment_detail.after_treatment_photos' => 'required',
             'treatment_detail.consent_to_photographs' => 'required',
             'treatment_detail.consent_to_treatment' => 'required',
             'treatment_detail.patient_signature' => 'required',
-            'treatment_detail.medicare_card_details_id' => 'required',
+//            'treatment_detail.medicare_card_details_id' => 'required',
             'medical_consultation.consultation_date' => 'required',
             'patient_id' => 'required',
+        ];
 
-        ]);
+        $messages = [
+            'need_to_talk_to_doctor' => 'This Field is required',
+            'treatment_detail.quantity' => 'Quantity Field is required',
+            'treatment_detail.location' => 'Location Field is required',
+//            'treatment_detail.extra_notes' => 'required',
+//            'treatment_detail.before_treatment_photos' => 'required',
+//            'treatment_detail.after_treatment_photos' => 'required',
+            'treatment_detail.consent_to_photographs' => 'Patient Consent to Photographs Field is required',
+            'treatment_detail.consent_to_treatment' => 'Patient Consent to Treatment is required',
+            'treatment_detail.patient_signature' => 'Patient Signature required',
+//            'treatment_detail.medicare_card_details_id' => 'required',
+            'medical_consultation.consultation_date' => 'Consultation Date is required',
+            'patient_id' => 'Patient Details is required',
+        ];
+        $this->crud->setValidation(
+
+            $rules, $messages
+        );
         /*CRUD::addField([
             'type' => "relationship",
             'name' => 'patient_id', // the method on your model that defines the relationship
@@ -120,7 +142,7 @@ class ScriptCrudController extends CrudController
             'entity' => 'medical_consultation',
             'type' => 'radio',
             'options' => [1 => 'Yes', 0 => 'No'],
-            'value' => $entry->need_to_talk_to_doctor ?? 0,
+            'value' => old('need_to_talk_to_doctor') ?? $entry->need_to_talk_to_doctor ?? 0,
 //            'wrapper' => 'card'
         ]);
 
@@ -131,7 +153,8 @@ class ScriptCrudController extends CrudController
             'model' => 'App\Models\Patient',
             'attribute' => 'text',
             'ajax' => true,
-            'inline_create' => true
+            'inline_create' => true,
+            'value' => old('patient_id') ?? $entry->patient_id ?? nulL,
         ]);
 
         /*CRUD::addField([
@@ -145,11 +168,35 @@ class ScriptCrudController extends CrudController
         ]);*/
 
 
-        CRUD::addField([
+       /* CRUD::addField([
             'name' => 'medicine_category_id',
             'label' => 'Select Medicine Category',
             'type' => 'category_tile', // The custom field type
             'options' => \App\Models\MedicineCategory::all(), // Fetch all options from the medicine_categories table
+            'value' => old('medicine_category_id') ?? $entry->medicine_category_id ?? 0,
+        ]);*/
+
+
+        $this->crud->addField([
+            'name' => 'script_products',
+            'label' => 'Products',
+            'type' => 'relationship',
+            'entity' => 'script_products',
+//            'wrapper' => ['class' => 'card col-md-4'],
+            'subfields' => [
+                [
+                    'name' => 'script_products.product_id',
+                    'label' => 'Products',
+                    'type' => 'relationship',
+                    'entity' => 'product',
+                    'model' => 'App\Models\Product',
+                    'attribute' => 'text',
+                    'ajax' => true,
+                    'value' => old('product_id') ?? $entry->product_id ?? nulL,
+                ],
+
+            ],
+
         ]);
 
         $this->crud->addField([
@@ -165,7 +212,7 @@ class ScriptCrudController extends CrudController
             'name' => 'medical_consultation[consultation_date]', 'type' => 'date', 'label' => 'Consultation Date',
             'entity' => 'medical_consultation',
             'model' => 'App\Models\MedicalConsultation',
-            'value' => $entry->medical_consultation['consultation_date'] ?? date('m/d/y'),
+            'value' => old('medical_consultation.consultation_date') ?? $entry->medical_consultation['consultation_date'] ?? now()->format('m/d/Y'),
         ]);
 
 
@@ -218,7 +265,7 @@ class ScriptCrudController extends CrudController
         }
 
 
-        CRUD::addField([ 'name' => 'medical_consultation[notes]', 'type' => 'textarea', 'label' => 'Notes']);
+        CRUD::addField([ 'name' => 'medical_consultation[notes]', 'type' => 'ckeditor', 'label' => 'Notes']);
 
 
         CRUD::addfield([
@@ -229,23 +276,108 @@ class ScriptCrudController extends CrudController
             'type' => 'text',
         ]);
 
-        CRUD::addfield([
+
+
+        /*CRUD::addfield([
             'name' => 'treatment_detail[location]',
             'entity' => 'treatment_detail',
             'model' => 'App\Models\TreatmentDetail',
             'label' => 'Location',
+            'type' => 'textarea',
+        ]);*/
 
+        CRUD::addField([
+            'name' => 'treatment_detail[location]',
+            'label' => 'Select Location',
+            'type' => 'custom_select',
+            /*'options' => [ // your select options
+                'Lips' => 'Lips',
+                'Nose' => 'Nose',
+                'Ears' => 'Ears',
+            ],*/
+            'options' => \App\Models\Locations::pluck('location', 'location')->toArray(),
+            'attribute' => 'name',
+            'allows_null' => false,
+            'pivot' => false, // not a pivot field (no relationship)
+            'value' => explode(', ', $entry->treatment_detail['location'] ?? ''), // convert the string back to an array for editing
         ]);
 
-        CRUD::addfield([
+
+       /* CRUD::addfield([
             'name' => 'treatment_detail[extra_notes]',
             'entity' => 'treatment_detail',
             'model' => 'App\Models\TreatmentDetail',
             'label' => 'Extra Notes',
-            'type' => 'textarea',
+            'type' => 'ckeditor',
+
+            'options'       => [
+                'autoGrow_minHeight'   => 500,
+                'autoGrow_bottomSpace' => 50,
+                'removePlugins'        => [],
+            ],
+        ]);*/
+
+
+        CRUD::addfield([
+            'label'        => "Left",
+            'name'         => "treatment_detail[left_treatment_photos]",
+            'entity' => 'treatment_detail',
+            'model' => 'App\Models\TreatmentDetail',
+            'filename'     => "image_filename", // set to null if not needed
+            'type'         => 'base64_image',
+            'aspect_ratio' => 1, // set to 0 to allow any aspect ratio
+            'crop'         => false, // set to true to allow cropping, false to disable
+            'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
+            'attribute' => [
+                'class' => 'col-sm-4'
+            ]
         ]);
 
         CRUD::addfield([
+            'label'        => "Right",
+            'name'         => "treatment_detail[right_treatment_photos]",
+            'entity' => 'treatment_detail',
+            'model' => 'App\Models\TreatmentDetail',
+            'filename'     => "image_filename", // set to null if not needed
+            'type'         => 'base64_image',
+            'aspect_ratio' => 1, // set to 0 to allow any aspect ratio
+            'crop'         => false, // set to true to allow cropping, false to disable
+            'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
+            'attribute' => [
+                'class' => 'col-sm-4'
+            ]
+        ]);
+
+        CRUD::addfield([
+            'label'        => "Top",
+            'name'         => "treatment_detail[top_treatment_photos]",
+            'entity' => 'treatment_detail',
+            'model' => 'App\Models\TreatmentDetail',
+            'filename'     => "image_filename", // set to null if not needed
+            'type'         => 'base64_image',
+            'aspect_ratio' => 1, // set to 0 to allow any aspect ratio
+            'crop'         => false, // set to true to allow cropping, false to disable
+            'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
+            'attribute' => [
+                'class' => 'col-sm-4'
+            ]
+        ]);
+
+        CRUD::addfield([
+            'label'        => "Bottom",
+            'name'         => "treatment_detail[bottom_treatment_photos]",
+            'entity' => 'treatment_detail',
+            'model' => 'App\Models\TreatmentDetail',
+            'filename'     => "image_filename", // set to null if not needed
+            'type'         => 'base64_image',
+            'aspect_ratio' => 1, // set to 0 to allow any aspect ratio
+            'crop'         => false, // set to true to allow cropping, false to disable
+            'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
+            'attribute' => [
+                'class' => 'col-sm-4'
+            ]
+        ]);
+        /*CRUD::addfield([
             'label'        => "Treatment Photos (Before)",
             'name'         => "treatment_detail[before_treatment_photos]",
             'entity' => 'treatment_detail',
@@ -267,7 +399,7 @@ class ScriptCrudController extends CrudController
             'aspect_ratio' => 1, // set to 0 to allow any aspect ratio
             'crop'         => false, // set to true to allow cropping, false to disable
             'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
-        ]);
+        ]);*/
 
         CRUD::addfield([
             'name' => 'treatment_detail[consent_to_photographs]',
@@ -298,7 +430,7 @@ class ScriptCrudController extends CrudController
             'type' => 'signature',
         ]);
 
-        CRUD::addField([
+        /*CRUD::addField([
             'name' => 'treatment_detail[medicare_card_details_id]',
             'type' => 'relationship',
             'label' => 'Medicare Card Details',
@@ -316,7 +448,7 @@ class ScriptCrudController extends CrudController
             'data_source' => url('admin/fetch-medicare-card-details'), // Adding patient_id to the URL
             'placeholder' => 'Select a Medicare Card',
             'minimum_input_length' => 0,
-        ]);
+        ]);*/
 
 
         CRUD::setFromDb(); // set fields from db columns.
@@ -523,19 +655,21 @@ class ScriptCrudController extends CrudController
 
             if (request()->has('treatment_detail')) {
                 $treatmentDetails = request('treatment_detail');
-//                $script->treatment_detail()->create( array_merge( $treatmentDetails, ['patient_id' => request('patient_id')]));
-
 
                 $script->treatment_detail()->create([
                     'quantity' => $treatmentDetails['quantity'],
                     'location' => $treatmentDetails['location'],
-                    'extra_notes' => $treatmentDetails['extra_notes'],
-                    'before_treatment_photos' => $treatmentDetails['before_treatment_photos'],
-                    'after_treatment_photos' => $treatmentDetails['after_treatment_photos'],
+//                    'extra_notes' => $treatmentDetails['extra_notes'],
+//                    'before_treatment_photos' => $treatmentDetails['before_treatment_photos'],
+//                    'after_treatment_photos' => $treatmentDetails['after_treatment_photos'],
+                    'left_treatment_photos' => $treatmentDetails['left_treatment_photos'],
+                    'right_treatment_photos' => $treatmentDetails['right_treatment_photos'],
+                    'top_treatment_photos' => $treatmentDetails['top_treatment_photos'],
+                    'bottom_treatment_photos' => $treatmentDetails['bottom_treatment_photos'],
                     'consent_to_photographs' => $treatmentDetails['consent_to_photographs'],
                     'consent_to_treatment' => $treatmentDetails['consent_to_treatment'],
                     'patient_signature' => $treatmentDetails['patient_signature'],
-                    'medicare_card_details_id' => $treatmentDetails['medicare_card_details_id'][0],
+//                    'medicare_card_details_id' => $treatmentDetails['medicare_card_details_id'][0] ?? 0,
                     'patient_id' => request('patient_id') // Add patient_id for foreign key
                 ]);
             }
@@ -639,6 +773,31 @@ class ScriptCrudController extends CrudController
         }
         return response()->json($results ?? '');
 
+    }
+
+    public function fetchProduct()
+    {
+        $query = \App\Models\Product::query();
+
+
+        if (request()->has('q')) {
+            $search = request()->input('q');
+            $query->where(function ($query) use ($search) {
+                $query->where('product', 'LIKE', "%$search%");
+            });
+        }
+
+        $products = $query->get();
+
+
+        $results = $products->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'text' => $product->product
+            ];
+        });
+
+        return response()->json($results);
     }
 
 }
