@@ -10,8 +10,11 @@
 {{--<x-backpack::menu-item title="Clinics" icon="la la-question" :link="backpack_url('clinics')" />--}}
 {{--<x-backpack::menu-item title="Clinics" icon="la la-question" :link="backpack_url('clinic')" />--}}
 <x-backpack::menu-item title="Nurses" icon="la la-question" :link="backpack_url('nurse')" />
-<x-backpack::menu-item title="Doctor Approval" icon="la la-patient" :link="route('doctor-approval')" />
-
+<x-backpack::menu-dropdown title="Doctor Approval" icon="la la-patient"  >
+<x-backpack::menu-item title="Doctor Waiting for Approval" icon="la la-pati ent" :link="route('doctor-approval')" />
+<x-backpack::menu-item title="Approved Scripts" icon="la la-patient" :link="route('doctor-approval')" />
+<x-backpack::menu-item title="Rejected Scripts" icon="la la-patient" :link="route('doctor-approval')" />
+</x-backpack::menu-dropdown>
 <x-backpack::menu-item title="Locations" icon="la la-question" :link="backpack_url('locations')" />
 
 

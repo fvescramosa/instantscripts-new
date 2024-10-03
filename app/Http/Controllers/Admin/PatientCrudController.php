@@ -146,7 +146,7 @@ class PatientCrudController extends CrudController
 
             }
 
-            $fields = [
+            /*$fields = [
 
                 ['name' => 'serious_health_problems', 'label' => 'Do you have any serious health problems, including any blood borne diseases or blood disorders?'],
                 ['name' => 'epilepsy_seizures_fainting', 'label' => 'Do you suffer from epilepsy, seizures or fainting?'],
@@ -194,7 +194,7 @@ class PatientCrudController extends CrudController
                     },
                 ]);
 
-            }
+            }*/
 
 
         }
