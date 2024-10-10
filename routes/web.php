@@ -33,3 +33,21 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/doctor-approval/', [\App\Http\Controllers\DoctorApprovalController::class, 'index'])->name('doctor-approval');
     Route::get('/doctor-approval/view/{id}', [\App\Http\Controllers\DoctorApprovalController::class, 'show'])->name('doctor-approval.view');
 });
+
+Route::get('/video-chat', function () {
+    // fetch all users apart from the authenticated user
+    $users = \App\Models\User::where('id', '<>', \Illuminate\Support\Facades\Auth::id())->get();
+    return view('video-chat', ['users' => $users]);
+});
+
+// Endpoints to call or receive calls.
+Route::post('/video/call-user', 'App\Http\Controllers\VideoChatController@callUser');
+Route::post('/video/accept-call', 'App\Http\Controllers\VideoChatController@acceptCall');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
