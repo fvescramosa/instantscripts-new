@@ -174,7 +174,7 @@ export default {
                     console.log(`${user.name} has left.`);
                 })
                 .error((error) => {
-                    console.error('Error connecting to presence channel:', error);
+                    console.error(error);
                 });
             // this.videoCallParams.channel = window.Echo.join("presence-video-channel");
 /*            window.Echo.join('presence-video-channel')

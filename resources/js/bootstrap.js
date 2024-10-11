@@ -26,7 +26,7 @@ window.Echo = new Echo({
     authEndpoint: '/pusher/auth',
     auth: {
         headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Send CSRF token if necessary
         }
     }
 });

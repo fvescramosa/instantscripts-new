@@ -31,6 +31,8 @@ class PusherController extends Controller
 
             $auth = $pusher->socket_Auth($channel_name, $socket_id);
 
+
+//            return response()->json($auth);
             return response($auth, 200);
 
         } else {
