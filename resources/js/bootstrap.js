@@ -16,20 +16,40 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 
 import Echo from 'laravel-echo';
-
 import Pusher from 'pusher-js';
 window.Pusher = Pusher;
-
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    forceTLS: true
+    forceTLS: true,
+    authEndpoint: '/pusher/auth',
+    auth: {
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        }
+    }
 });
 
+// import Echo from 'laravel-echo';
+// import Pusher from 'pusher-js';
+
+window.Pusher = Pusher;
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    forceTLS: true
+    forceTLS: true,
+    authEndpoint: '/pusher/auth',
+    auth: {
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        }
+    }
 });
+
+// window.Echo.channel('some-channel')
+//     .listen('SomeEvent', (e) => {
+//         console.log('Event received:', e);
+//     });
+

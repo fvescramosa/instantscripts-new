@@ -33,21 +33,33 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/doctor-approval/', [\App\Http\Controllers\DoctorApprovalController::class, 'index'])->name('doctor-approval');
     Route::get('/doctor-approval/view/{id}', [\App\Http\Controllers\DoctorApprovalController::class, 'show'])->name('doctor-approval.view');
 });
+//Route::middleware('auth')->group(function () {
+    Route::get('/video-chat', function () {
+        // fetch all users apart from the authenticated user
+        $users = \App\Models\User::where('id', '<>', \Illuminate\Support\Facades\Auth::id())->get();
+        return view('video-chat', ['users' => $users]);
+    });
 
-Route::get('/video-chat', function () {
-    // fetch all users apart from the authenticated user
-    $users = \App\Models\User::where('id', '<>', \Illuminate\Support\Facades\Auth::id())->get();
-    return view('video-chat', ['users' => $users]);
+    // Endpoints to call or receive calls.
+    Route::post('/video/call-user', 'App\Http\Controllers\VideoChatController@callUser');
+    Route::post('/video/accept-call', 'App\Http\Controllers\VideoChatController@acceptCall');
+//});
+
+Route::get('/test-broadcast', function () {
+    broadcast(new \App\Events\StartVideoChat('Hello, this is a test event!'));
+    return 'Event has been broadcasted!';
 });
 
-// Endpoints to call or receive calls.
-Route::post('/video/call-user', 'App\Http\Controllers\VideoChatController@callUser');
-Route::post('/video/accept-call', 'App\Http\Controllers\VideoChatController@acceptCall');
-
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+Route::post('/pusher/auth', [\App\Http\Controllers\PusherController::class, 'pusherAuth'])
+    ->middleware('auth');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+///
+//Auth::routes();
+//
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+

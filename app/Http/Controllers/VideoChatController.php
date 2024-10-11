@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\StartVideoChat;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Events\StartVideoChat;
 
 class VideoChatController extends Controller
 {
-    //
+
     public function callUser(Request $request)
     {
         $data['userToCall'] = $request->user_to_call;

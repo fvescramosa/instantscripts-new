@@ -163,7 +163,41 @@ export default {
     },
     methods: {
         initializeChannel() {
-            this.videoCallParams.channel = window.Echo.join("presence-video-channel");
+            this.videoCallParams.channel = window.Echo.join("presence-video-channel")
+                .here((users) => {
+                    console.log('Online users:', users);  // Log currently online users
+                })
+                .joining((user) => {
+                    console.log(`${user.name} has joined.`);
+                })
+                .leaving((user) => {
+                    console.log(`${user.name} has left.`);
+                })
+                .error((error) => {
+                    console.error('Error connecting to presence channel:', error);
+                });
+            // this.videoCallParams.channel = window.Echo.join("presence-video-channel");
+/*            window.Echo.join('presence-video-channel')
+                .here((users) => {
+                    console.log('Online users:', users); // This will list all online users
+                })
+                .joining((user) => {
+                    console.log(`${user.name} has joined the chat.`);
+                })
+                .leaving((user) => {
+                    console.log(`${user.name} has left the chat.`);
+                });*/
+
+            window.Echo.join('presence-video-channel')
+                .here((users) => {
+                    console.log('Users currently online:', users);
+                })
+                .joining((user) => {
+                    console.log(`${user.name} has joined.`);
+                })
+                .leaving((user) => {
+                    console.log(`${user.name} has left.`);
+                });
         },
         getMediaPermission() {
             return getPermissions()
@@ -328,7 +362,6 @@ export default {
         getUserOnlineStatus(id) {
             const onlineUserIndex = this.videoCallParams.users.findIndex(
                 (data) => data.id === id
-
             );
             if (onlineUserIndex < 0) {
                 return "Offline";
