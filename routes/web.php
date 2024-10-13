@@ -33,3 +33,37 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/doctor-approval/', [\App\Http\Controllers\DoctorApprovalController::class, 'index'])->name('doctor-approval');
     Route::get('/doctor-approval/view/{id}', [\App\Http\Controllers\DoctorApprovalController::class, 'show'])->name('doctor-approval.view');
 });
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/video-chat', function () {
+        // fetch all users apart from the authenticated user
+        $users = \App\Models\User::where('id', '<>', backpack_user()->id)->get();
+        return view('video-chat', ['users' => $users]);
+    });
+
+// Endpoints to call or receive calls.
+    Route::post('/video/call-user', 'App\Http\Controllers\VideoChatController@callUser');
+    Route::post('/video/accept-call', 'App\Http\Controllers\VideoChatController@acceptCall');
+
+});
+
+
+Route::group(['prefix' => 'admin'], function(){
+    Route::get('video-chat-new', [\App\Http\Controllers\VideoChatController::class, 'index']);
+    Route::post('auth/video-chat-new', [\App\Http\Controllers\VideoChatController::class, 'auth']);
+});
+
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/video-chat-mix', function () {
+        // fetch all users apart from the authenticated user
+        $users = \App\Models\User::where('id', '<>', backpack_user()->id)->get();
+        return view('video-chat-mix', ['users' => $users]);
+    });
+
+// Endpoints to call or receive calls.
+    Route::post('/video/call-user-mix', 'App\Http\Controllers\VideoChatController@callUser');
+    Route::post('/video/accept-call-mix', 'App\Http\Controllers\VideoChatController@acceptCall');
+    Route::post('auth/video-chat-new-mix', [\App\Http\Controllers\VideoChatController::class, 'auth']);
+});
