@@ -1,2 +1,0 @@
-<button type="button" class="btn btn-sm btn-link float-right float-end inline-create-button"><span class="la la-plus"></span><?php echo e($field['inline_create']['add_button_label'] ?? trans('backpack::crud.add')); ?></button>
-<?php /**PATH C:\laragon\www\instantscripts-new\vendor\backpack\pro/resources/views/fields/relationship/inc/inline_create_button.blade.php ENDPATH**/ ?>
