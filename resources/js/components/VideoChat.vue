@@ -239,11 +239,12 @@ export default {
                 stream: this.videoCallParams.stream,
                 config: {
                     iceServers: [
-                        {
+                        { urls: 'stun:stun.l.google.com:19302'},
+                        /*{
                             urls: this.turn_url,
                             username: this.turn_username,
                             credential: this.turn_credential,
-                        },
+                        },*/
                     ],
                 },
             });
@@ -312,11 +313,12 @@ export default {
                 stream: this.videoCallParams.stream,
                 config: {
                     iceServers: [
-                        {
+                        { urls: 'stun:stun.l.google.com:19302' }
+                        /*{
                             urls: this.turn_url,
                             username: this.turn_username,
                             credential: this.turn_credential,
-                        },
+                        },*/
                     ],
                 },
             });
