@@ -1,5 +1,5 @@
 @extends(backpack_view('blank'))
-@asset('js/app.js')
+
 
 @php
 
