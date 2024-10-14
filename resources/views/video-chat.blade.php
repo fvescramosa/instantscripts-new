@@ -1,5 +1,5 @@
 @extends(backpack_view('blank'))
-@vite('resources/js/app.js')
+@asset('js/app.js')
 
 @php
 
